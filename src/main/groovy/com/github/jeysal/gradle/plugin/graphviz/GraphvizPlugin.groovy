@@ -1,5 +1,6 @@
 package com.github.jeysal.gradle.plugin.graphviz
 
+import com.github.jeysal.gradle.plugin.graphviz.node.NodeManager
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -9,7 +10,9 @@ import org.gradle.api.Project
  */
 class GraphvizPlugin implements Plugin<Project> {
     @Override
-    void apply(Project project) {
-
+    void apply(final Project project) {
+        final def nodeManager = new NodeManager(project)
+        nodeManager.prepareNode()
+        nodeManager.addVizSetupTask()
     }
 }
