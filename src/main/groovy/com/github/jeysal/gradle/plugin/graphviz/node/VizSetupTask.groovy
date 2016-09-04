@@ -20,6 +20,8 @@ class VizSetupTask extends NpmTask {
         setNpmCommand 'install', '--silent', "$VIZ_MODULE_NAME@$VIZ_MODULE_VERSION"
         dependsOn NpmSetupTask.NAME
 
+        onlyIf { project.extensions.graphviz.useVizJs }
+
         // nodeModulesDir might still change
         project.afterEvaluate {
             File nodeModules = new File(project.extensions.node.nodeModulesDir as File, 'node_modules')
