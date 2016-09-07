@@ -1,6 +1,7 @@
 package com.github.jeysal.gradle.plugin.graphviz
 
 import org.gradle.api.Project
+import org.gradle.api.tasks.util.PatternSet
 
 /**
  * @author Tim Seckinger
@@ -25,7 +26,18 @@ class GraphvizExtension {
 
     Object sourceDir
 
+    private final PatternSet sources = new PatternSet()
+
     GraphvizExtension(Project project) {
         sourceDir = new File(project.projectDir, 'src/main/graphviz')
+    }
+
+    /**
+     * Configures the sources to use via ant-style patterns.
+     */
+    void sources(Closure config) {
+        Closure configClone = config.clone() as Closure
+        configClone.delegate = sources
+        configClone()
     }
 }
