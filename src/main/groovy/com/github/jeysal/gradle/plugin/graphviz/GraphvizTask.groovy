@@ -1,4 +1,4 @@
-package com.github.jeysal.gradle.plugin.graphviz.exec
+package com.github.jeysal.gradle.plugin.graphviz
 
 import com.github.jeysal.gradle.plugin.graphviz.node.VizSetupTask
 import org.gradle.api.DefaultTask
