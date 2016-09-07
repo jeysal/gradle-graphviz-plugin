@@ -14,8 +14,8 @@ class GraphvizTask extends DefaultTask {
     public static final String NAME = 'graphviz'
 
     /**
-     * Path of the Graphviz executable (or folder that contains it) to use.<br/>
-     * If not set, PATH environment variable is used.
+     * Path of the Graphviz executable to use.<br/>
+     * If not set, viz provided by :vizSetup or Graphviz from PATH environment variable is used.
      */
     @Input
     String executablePath = ''
