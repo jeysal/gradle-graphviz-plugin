@@ -4,6 +4,7 @@ import com.github.jeysal.gradle.plugin.graphviz.node.VizSetupTask
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.util.PatternSet
 
 /**
@@ -34,6 +35,12 @@ class GraphvizTask extends DefaultTask {
      */
     @InputDirectory
     Object sourceDir
+
+    /**
+     * Directory to generate Graphviz output into
+     */
+    @OutputDirectory
+    Object outputDir = new File(project.buildDir, 'graphviz')
 
     private PatternSet sources
 
