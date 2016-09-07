@@ -24,6 +24,9 @@ class GraphvizExtension {
      */
     String layout = 'dot'
 
+    /**
+     * Directory to scan for source files. Defaults to src/main/graphviz.
+     */
     Object sourceDir
 
     private final PatternSet sources = new PatternSet()
@@ -33,7 +36,9 @@ class GraphvizExtension {
     }
 
     /**
-     * Configures the sources to use via ant-style patterns.
+     * Configures the sources to use via ant-style patterns.<br/>
+     * <b>Example:</b><br/>
+     * <code>sources { include '**&#47;*.gv', '**&#47;*.dot' }</code>
      */
     void sources(Closure config) {
         Closure configClone = config.clone() as Closure
