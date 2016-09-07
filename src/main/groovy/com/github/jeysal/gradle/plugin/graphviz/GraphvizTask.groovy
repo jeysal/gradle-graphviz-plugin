@@ -2,6 +2,8 @@ package com.github.jeysal.gradle.plugin.graphviz
 
 import com.github.jeysal.gradle.plugin.graphviz.node.VizSetupTask
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.util.PatternSet
 
 /**
@@ -15,18 +17,22 @@ class GraphvizTask extends DefaultTask {
      * Path of the Graphviz executable (or folder that contains it) to use.<br/>
      * If not set, PATH environment variable is used.
      */
+    @Input
     String executablePath = ''
     /**
      * Graphviz layout engine to use. Defaults to 'dot'.
      */
+    @Input
     String layout = 'dot'
     /**
      * Graphviz output format to produce. Defaults to 'xdot'
      */
+    @Input
     String format = 'xdot'
     /**
      * Directory to scan for source files. Defaults to src/main/graphviz.
      */
+    @InputDirectory
     Object sourceDir
 
     private PatternSet sources
@@ -53,6 +59,7 @@ class GraphvizTask extends DefaultTask {
         configClone()
     }
 
+    @Input
     PatternSet getSources() {
         return sources ?: new PatternSet().include('**/*.gv', '**/*.dot')
     }
