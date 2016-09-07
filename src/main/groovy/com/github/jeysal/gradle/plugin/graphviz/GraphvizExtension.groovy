@@ -23,7 +23,10 @@ class GraphvizExtension {
      * Graphviz layout engine to use. Defaults to 'dot'.
      */
     String layout = 'dot'
-
+    /**
+     * Graphviz output format to produce. Defaults to 'xdot'
+     */
+    String format = 'xdot'
     /**
      * Directory to scan for source files. Defaults to src/main/graphviz.
      */
