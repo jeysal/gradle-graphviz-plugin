@@ -1,5 +1,7 @@
 package com.github.jeysal.gradle.plugin.graphviz
 
+import org.gradle.api.Project
+
 /**
  * @author Tim Seckinger
  * @since 9/2/16
@@ -20,4 +22,10 @@ class GraphvizExtension {
      * Graphviz layout engine to use. Defaults to 'dot'.
      */
     String layout = 'dot'
+
+    Object sourceDir
+
+    GraphvizExtension(Project project) {
+        sourceDir = new File(project.projectDir, 'src/main/graphviz')
+    }
 }
