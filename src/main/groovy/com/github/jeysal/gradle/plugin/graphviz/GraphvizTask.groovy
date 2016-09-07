@@ -2,9 +2,11 @@ package com.github.jeysal.gradle.plugin.graphviz
 
 import com.github.jeysal.gradle.plugin.graphviz.node.VizSetupTask
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.FileTree
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.SkipWhenEmpty
 import org.gradle.api.tasks.util.PatternSet
 
 /**
@@ -33,8 +35,8 @@ class GraphvizTask extends DefaultTask {
     /**
      * Directory to scan for source files. Defaults to src/main/graphviz.
      */
-    @InputDirectory
-    Object sourceDir
+    @Input
+    Object sourceDir = new File(new File(new File(project.projectDir, 'src'), 'main'), 'graphviz')
 
     /**
      * Directory to generate Graphviz output into
@@ -42,15 +44,13 @@ class GraphvizTask extends DefaultTask {
     @OutputDirectory
     Object outputDir = new File(project.buildDir, 'graphviz')
 
-    private PatternSet sources
+    private PatternSet sourcePatterns
 
     public GraphvizTask() {
         group = 'build'
         description = 'Generates Graphviz output from sources'
 
         dependsOn VizSetupTask.NAME
-
-        sourceDir = new File(project.projectDir, 'src/main/graphviz')
     }
 
     /**
@@ -60,14 +60,20 @@ class GraphvizTask extends DefaultTask {
      * <code>sources { include '**&#47;*.gv', '**&#47;*.dot' }</code>
      */
     void sources(Closure config) {
-        sources = sources ?: new PatternSet()
+        sourcePatterns = sourcePatterns ?: new PatternSet()
         Closure configClone = config.clone() as Closure
-        configClone.delegate = sources
+        configClone.delegate = sourcePatterns
         configClone()
     }
 
-    @Input
-    PatternSet getSources() {
-        return sources ?: new PatternSet().include('**/*.gv', '**/*.dot')
+    PatternSet getSourcePatterns() {
+        return sourcePatterns ?: new PatternSet().include('**/*.gv', '**/*.dot')
+    }
+
+    @InputFiles
+    @SkipWhenEmpty
+    FileTree getSourceFiles() {
+        return project.fileTree(sourceDir)
+                .matching(getSourcePatterns())
     }
 }
