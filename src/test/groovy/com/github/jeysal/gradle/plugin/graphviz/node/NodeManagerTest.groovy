@@ -18,7 +18,7 @@ class NodeManagerTest extends Specification {
         manager = new NodeManager(project)
     }
 
-    def "prepareNode() applies the gradle-node-plugin"() {
+    def 'prepareNode() applies the gradle-node-plugin'() {
         when:
         manager.prepareNode()
 
@@ -26,7 +26,7 @@ class NodeManagerTest extends Specification {
         project.pluginManager.hasPlugin(NodeManager.NODE_PLUGIN_ID)
     }
 
-    def "prepareNode() configures the gradle-node-plugin"() {
+    def 'prepareNode() configures the gradle-node-plugin'() {
         when:
         manager.prepareNode()
 
@@ -37,7 +37,7 @@ class NodeManagerTest extends Specification {
         node.nodeModulesDir == new File(project.projectDir, '.gradle')
     }
 
-    def "prepareNode() takes projectCacheDir into account"() {
+    def 'prepareNode() takes projectCacheDir into account'() {
         setup:
         project.gradle.startParameter.projectCacheDir = project.projectDir
 
@@ -48,7 +48,7 @@ class NodeManagerTest extends Specification {
         project.extensions.node.nodeModulesDir == project.projectDir
     }
 
-    def "prepareNode() does not configure the gradle-node-plugin if already applied"() {
+    def 'prepareNode() does not configure the gradle-node-plugin if already applied'() {
         setup:
         project.pluginManager.apply(NodeManager.NODE_PLUGIN_ID)
         NodeExtension node = project.extensions.node
@@ -65,7 +65,7 @@ class NodeManagerTest extends Specification {
         node.nodeModulesDir == project.projectDir
     }
 
-    def "addVizSetupTask() adds the viz setup task"() {
+    def 'addVizSetupTask() adds the viz setup task'() {
         setup:
         manager.prepareNode()
 
@@ -76,7 +76,7 @@ class NodeManagerTest extends Specification {
         project.getTasksByName(VizSetupTask.NAME, false)[0] instanceof VizSetupTask
     }
 
-    def "getBinDir() returns the .bin dir inside the node modules dir"() {
+    def 'getBinDir() returns the .bin dir inside the node modules dir'() {
         setup:
         manager.prepareNode()
         project.extensions.node.nodeModulesDir = project.projectDir

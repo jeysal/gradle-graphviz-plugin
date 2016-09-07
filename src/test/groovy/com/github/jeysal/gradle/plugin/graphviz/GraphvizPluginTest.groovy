@@ -17,7 +17,7 @@ class GraphvizPluginTest extends Specification {
         plugin = new GraphvizPlugin()
     }
 
-    def "apply() creates the GraphvizExtension"() {
+    def 'apply() creates the GraphvizExtension'() {
         when:
         plugin.apply(project)
         then:
