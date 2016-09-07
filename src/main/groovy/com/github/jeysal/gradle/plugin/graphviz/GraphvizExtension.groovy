@@ -29,7 +29,7 @@ class GraphvizExtension {
      */
     Object sourceDir
 
-    private final PatternSet sources = new PatternSet()
+    private PatternSet sources
 
     GraphvizExtension(Project project) {
         sourceDir = new File(project.projectDir, 'src/main/graphviz')
@@ -37,12 +37,18 @@ class GraphvizExtension {
 
     /**
      * Configures the sources to use via ant-style patterns.<br/>
+     * If not configured, sources default to the example below<br/>
      * <b>Example:</b><br/>
      * <code>sources { include '**&#47;*.gv', '**&#47;*.dot' }</code>
      */
     void sources(Closure config) {
+        sources = sources ?: new PatternSet()
         Closure configClone = config.clone() as Closure
         configClone.delegate = sources
         configClone()
+    }
+
+    PatternSet getSources() {
+        return sources ?: new PatternSet().include('**/*.gv', '**/*.dot')
     }
 }
