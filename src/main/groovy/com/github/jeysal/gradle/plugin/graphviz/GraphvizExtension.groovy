@@ -16,4 +16,8 @@ class GraphvizExtension {
      * If not set, PATH environment variable is used.
      */
     String executablePath = ''
+    /**
+     * Graphviz layout engine to use. Defaults to 'dot'.
+     */
+    String layout = 'dot'
 }
