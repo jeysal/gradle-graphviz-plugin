@@ -1,4 +1,4 @@
-package com.github.jeysal.gradle.plugin.graphviz
+package com.github.jeysal.gradle.plugin.graphviz.exec
 
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
@@ -8,30 +8,30 @@ import spock.lang.Specification
  * @author Tim Seckinger
  * @since 9/7/16
  */
-class GraphvizExtensionTest extends Specification {
+class GraphvizTaskTest extends Specification {
     private Project project
-    private GraphvizExtension extension
+    private GraphvizTask graphviz
 
     def setup() {
         project = ProjectBuilder.builder().build()
-        extension = new GraphvizExtension(project)
+        graphviz = project.tasks.create(GraphvizTask.NAME, GraphvizTask)
     }
 
     def 'sources(Closure) configures the pattern set'() {
         when:
-        extension.sources {
+        graphviz.sources {
             include 'abc'
             exclude 'xyz'
         }
 
         then:
-        extension.sources.includes == ['abc'] as Set
-        extension.sources.excludes == ['xyz'] as Set
+        graphviz.sources.includes == ['abc'] as Set
+        graphviz.sources.excludes == ['xyz'] as Set
     }
 
     def 'sources default to **/*.gv and **/*.dot files'() {
         expect:
-        extension.sources.includes == ['**/*.gv', '**/*.dot'] as Set
-        extension.sources.excludes.empty
+        graphviz.sources.includes == ['**/*.gv', '**/*.dot'] as Set
+        graphviz.sources.excludes.empty
     }
 }
