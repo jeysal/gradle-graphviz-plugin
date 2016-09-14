@@ -1,12 +1,10 @@
 package com.github.jeysal.gradle.plugin.graphviz
 
+import com.github.jeysal.gradle.plugin.graphviz.exec.GraphvizSourceFileVisitor
 import com.github.jeysal.gradle.plugin.graphviz.node.VizSetupTask
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileTree
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFiles
-import org.gradle.api.tasks.OutputDirectory
-import org.gradle.api.tasks.SkipWhenEmpty
+import org.gradle.api.tasks.*
 import org.gradle.api.tasks.util.PatternSet
 import org.gradle.internal.os.OperatingSystem
 
@@ -93,5 +91,10 @@ class GraphvizTask extends DefaultTask {
     FileTree getSourceFiles() {
         return project.fileTree(sourceDir)
                 .matching(getSourcePatterns())
+    }
+
+    @TaskAction
+    void exec() {
+        sourceFiles.visit(new GraphvizSourceFileVisitor(this))
     }
 }
