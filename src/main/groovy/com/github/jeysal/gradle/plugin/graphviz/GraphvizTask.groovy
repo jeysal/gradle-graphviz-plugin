@@ -63,6 +63,14 @@ class GraphvizTask extends DefaultTask {
                 : 'dot' + (isWindows ? '.exe' : ''))
     }
 
+    File getSourceDir() {
+        return project.file(sourceDir)
+    }
+
+    File getOutputDir() {
+        return project.file(outputDir)
+    }
+
     /**
      * Configures the sources to use via ant-style patterns.<br/>
      * If not configured, sources default to the example below<br/>
