@@ -14,5 +14,7 @@ class GraphvizPlugin implements Plugin<Project> {
         final def nodeManager = new NodeManager(project)
         nodeManager.prepareNode()
         nodeManager.addVizSetupTask()
+
+        project.tasks.create(GraphvizTask.NAME, GraphvizTask)
     }
 }
