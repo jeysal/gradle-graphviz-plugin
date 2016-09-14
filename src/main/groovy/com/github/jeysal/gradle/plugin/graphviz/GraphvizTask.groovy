@@ -32,6 +32,11 @@ class GraphvizTask extends DefaultTask {
     @Input
     String format = 'xdot'
     /**
+     * If true, the chosen format will be appended to every output file name. Defaults to true
+     */
+    @Input
+    boolean formatSuffix = true
+    /**
      * Directory to scan for source files. Defaults to src/main/graphviz.
      */
     @Input
