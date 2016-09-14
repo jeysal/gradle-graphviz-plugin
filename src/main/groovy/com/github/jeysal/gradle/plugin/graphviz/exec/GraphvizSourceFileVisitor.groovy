@@ -23,12 +23,13 @@ class GraphvizSourceFileVisitor implements FileVisitor {
 
     @Override
     void visitFile(FileVisitDetails fileDetails) {
+        def source = fileDetails.relativePath.getFile(graphviz.sourceDir)
         def target = fileDetails.relativePath.getFile(graphviz.outputDir)
         def cmd = [graphviz.executablePath,
                    '-K', graphviz.layout,
                    '-T', graphviz.format,
-                   '-o', target.path + (graphviz.formatSuffix ? graphviz.format : ''),
-                   fileDetails.path]
+                   '-o', target.path + (graphviz.formatSuffix ? ".$graphviz.format" : ''),
+                   source.path]
 
         def proc = cmd.execute()
         proc.consumeProcessOutputStream(System.out as OutputStream)
