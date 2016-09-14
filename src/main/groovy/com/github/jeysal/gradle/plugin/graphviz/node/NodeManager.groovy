@@ -46,14 +46,4 @@ class NodeManager {
     VizSetupTask addVizSetupTask() {
         project.tasks.create(VizSetupTask.NAME, VizSetupTask)
     }
-
-    /**
-     * Returns the directory the viz executables are installed into.
-     * Note that this may still change during project configuration.
-     *
-     * @return The installation directory
-     */
-    File getBinDir() {
-        new File((File) project.extensions.node.nodeModulesDir, '.bin')
-    }
 }

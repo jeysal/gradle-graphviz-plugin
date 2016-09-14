@@ -75,16 +75,4 @@ class NodeManagerTest extends Specification {
         then:
         project.getTasksByName(VizSetupTask.NAME, false)[0] instanceof VizSetupTask
     }
-
-    def 'getBinDir() returns the .bin dir inside the node modules dir'() {
-        setup:
-        manager.prepareNode()
-        project.extensions.node.nodeModulesDir = project.projectDir
-
-        when:
-        File binDir = manager.getBinDir()
-
-        then:
-        binDir == new File(project.projectDir, '.bin')
-    }
 }
