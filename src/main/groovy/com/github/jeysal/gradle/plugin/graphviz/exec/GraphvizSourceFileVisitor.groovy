@@ -27,7 +27,7 @@ class GraphvizSourceFileVisitor implements FileVisitor {
         def cmd = [graphviz.executablePath,
                    '-K', graphviz.layout,
                    '-T', graphviz.format,
-                   '-o', target.path,
+                   '-o', target.path + (graphviz.formatSuffix ? graphviz.format : ''),
                    fileDetails.path]
 
         def proc = cmd.execute()
