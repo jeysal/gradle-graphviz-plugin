@@ -8,6 +8,7 @@ import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.SkipWhenEmpty
 import org.gradle.api.tasks.util.PatternSet
+import org.gradle.internal.os.OperatingSystem
 
 /**
  * @author Tim Seckinger
@@ -51,6 +52,15 @@ class GraphvizTask extends DefaultTask {
         description = 'Generates Graphviz output from sources'
 
         dependsOn VizSetupTask.NAME
+    }
+
+    String getExecutablePath() {
+        def isWindows = OperatingSystem.current().windows
+        def useVizJs = project.tasks.find { it.name == VizSetupTask.NAME }?.enabled
+        return executablePath ?: (useVizJs
+                ? new File(new File(new File(project.extensions.node.nodeModulesDir as File, 'node_modules'), '.bin'),
+                'dot' + (isWindows ? '.cmd' : '')).path
+                : 'dot' + (isWindows ? '.exe' : ''))
     }
 
     /**
