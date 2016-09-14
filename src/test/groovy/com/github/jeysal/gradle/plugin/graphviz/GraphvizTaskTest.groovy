@@ -1,6 +1,8 @@
 package com.github.jeysal.gradle.plugin.graphviz
 
+import com.github.jeysal.gradle.plugin.graphviz.node.NodeManager
 import org.gradle.api.Project
+import org.gradle.internal.os.OperatingSystem
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
@@ -12,9 +14,12 @@ class GraphvizTaskTest extends Specification {
     private Project project
     private GraphvizTask graphviz
 
+    private boolean isWindows
+
     def setup() {
         project = ProjectBuilder.builder().build()
         graphviz = project.tasks.create(GraphvizTask.NAME, GraphvizTask)
+        isWindows = OperatingSystem.current().windows
     }
 
     def 'sources(Closure) configures the pattern set'() {
@@ -33,5 +38,44 @@ class GraphvizTaskTest extends Specification {
         expect:
         graphviz.sourcePatterns.includes == ['**/*.gv', '**/*.dot'] as Set
         graphviz.sourcePatterns.excludes.empty
+    }
+
+    def 'getExecutablePath() returns the executablePath if set'() {
+        when:
+        graphviz.executablePath = 'asdf'
+
+        then:
+        graphviz.executablePath == 'asdf'
+    }
+
+    def 'getExecutablePath() returns the viz.js path if enabled'() {
+        setup:
+        def node = new NodeManager(project)
+        node.prepareNode()
+
+        when:
+        node.addVizSetupTask()
+
+        then:
+        graphviz.executablePath == new File(new File(new File(new File(project.projectDir, '.gradle'),
+                'node_modules'), '.bin'), 'dot' + (isWindows ? '.cmd' : '')).path
+    }
+
+    def 'getExecutablePath() returns the default if VizSetupTask is not present'() {
+        expect:
+        graphviz.executablePath == 'dot' + (isWindows ? '.exe' : '')
+    }
+
+    def 'getExecutablePath() returns the default if VizSetupTask is disabled'() {
+        setup:
+        def node = new NodeManager(project)
+        node.prepareNode()
+        def vizSetup = node.addVizSetupTask()
+
+        when:
+        vizSetup.enabled = false
+
+        then:
+        graphviz.executablePath == 'dot' + (isWindows ? '.exe' : '')
     }
 }
