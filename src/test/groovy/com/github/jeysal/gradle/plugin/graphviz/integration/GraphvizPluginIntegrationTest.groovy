@@ -51,4 +51,17 @@ class GraphvizPluginIntegrationTest extends Specification {
 
         outputName = "source.gv.$format"
     }
+
+    def 'graphviz task retains source directory structure'() {
+        setup:
+        new File(projectDir.newFolder('src', 'main', 'graphviz', 'abc', 'xyz'), 'source.gv') <<
+                getClass().getResourceAsStream('/source.gv')
+
+        expect:
+        runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
+        graphvizBuildDir.list().toList() == ['abc']
+        new File(graphvizBuildDir, 'abc').list().toList() == ['xyz']
+        new File(graphvizBuildDir, 'abc/xyz').list().toList() == ['source.gv.xdot']
+        new File(graphvizBuildDir, 'abc/xyz/source.gv.xdot').text == getClass().getResourceAsStream('/dot.xdot').text
+    }
 }
