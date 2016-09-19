@@ -1,5 +1,6 @@
 plugins {
     id 'groovy'
+    id 'java-gradle-plugin'
     id 'maven'
 }
 
@@ -9,6 +10,15 @@ version = ['git', 'describe', '--tags'].execute([], projectDir).inputStream.text
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+gradlePlugin {
+    plugins {
+        graphviz {
+            id = 'com.github.jeysal.graphviz'
+            implementationClass = 'com.github.jeysal.gradle.plugin.graphviz.GraphvizPlugin'
+        }
+    }
+}
+
 // Dependencies
 
 repositories {
@@ -16,8 +26,6 @@ repositories {
 }
 
 dependencies {
-    compile gradleApi()
-
     // Node
     compile 'com.moowork.gradle:gradle-node-plugin:0.13'
 
