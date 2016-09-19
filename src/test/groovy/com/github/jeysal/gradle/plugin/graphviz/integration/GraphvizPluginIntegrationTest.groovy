@@ -70,4 +70,16 @@ class GraphvizPluginIntegrationTest extends Specification {
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.UP_TO_DATE
         !graphvizBuildDir.exists()
     }
+
+    def 'graphviz task uses exact source file names if formatSuffix is false'() {
+        setup:
+        new File(projectDir.newFolder('src', 'main', 'graphviz'), 'source.gv') <<
+                getClass().getResourceAsStream('/source.gv')
+        buildFile << 'graphviz { formatSuffix = false }\n'
+
+        expect:
+        runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
+        graphvizBuildDir.list().toList() == ['source.gv']
+        new File(graphvizBuildDir, 'source.gv').text == getClass().getResourceAsStream("/dot.xdot").text
+    }
 }
