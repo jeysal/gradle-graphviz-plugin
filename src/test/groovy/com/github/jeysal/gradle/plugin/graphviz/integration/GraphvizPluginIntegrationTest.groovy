@@ -52,6 +52,20 @@ class GraphvizPluginIntegrationTest extends Specification {
         outputName = "source.gv.$format"
     }
 
+    def 'graphviz task generates multiple output files from multiple source files'() {
+        setup:
+        new File(projectDir.newFolder('src', 'main', 'graphviz'), 'source.gv') <<
+                getClass().getResourceAsStream('/source.gv')
+        new File(projectDir.root, 'src/main/graphviz/other.gv') <<
+                getClass().getResourceAsStream('/source.gv')
+
+        expect:
+        runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
+        graphvizBuildDir.list() as Set == ['source.gv.xdot', 'other.gv.xdot'] as Set
+        new File(graphvizBuildDir, 'source.gv.xdot').text == getClass().getResourceAsStream("/dot.xdot").text
+        new File(graphvizBuildDir, 'other.gv.xdot').text == getClass().getResourceAsStream("/dot.xdot").text
+    }
+
     def 'graphviz task retains source directory structure'() {
         setup:
         new File(projectDir.newFolder('src', 'main', 'graphviz', 'abc', 'xyz'), 'source.gv') <<
