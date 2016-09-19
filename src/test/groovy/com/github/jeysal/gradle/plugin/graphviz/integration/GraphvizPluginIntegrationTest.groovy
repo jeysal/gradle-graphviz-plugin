@@ -82,4 +82,16 @@ class GraphvizPluginIntegrationTest extends Specification {
         graphvizBuildDir.list().toList() == ['source.gv']
         new File(graphvizBuildDir, 'source.gv').text == getClass().getResourceAsStream("/dot.xdot").text
     }
+
+    def 'graphviz task reads from specified sourceDir'() {
+        setup:
+        new File(projectDir.newFolder('altSrc'), 'source.gv') <<
+                getClass().getResourceAsStream('/source.gv')
+        buildFile << 'graphviz { sourceDir = file("altSrc") }\n'
+
+        expect:
+        runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
+        graphvizBuildDir.list().toList() == ['source.gv.xdot']
+        new File(graphvizBuildDir, 'source.gv.xdot').text == getClass().getResourceAsStream("/dot.xdot").text
+    }
 }
