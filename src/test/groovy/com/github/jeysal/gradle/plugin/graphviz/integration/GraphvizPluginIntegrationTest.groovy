@@ -64,4 +64,10 @@ class GraphvizPluginIntegrationTest extends Specification {
         new File(graphvizBuildDir, 'abc/xyz').list().toList() == ['source.gv.xdot']
         new File(graphvizBuildDir, 'abc/xyz/source.gv.xdot').text == getClass().getResourceAsStream('/dot.xdot').text
     }
+
+    def 'graphviz task ignores empty source directory'() {
+        expect:
+        runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.UP_TO_DATE
+        !graphvizBuildDir.exists()
+    }
 }
