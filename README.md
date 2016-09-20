@@ -75,3 +75,12 @@ graphviz {
     }
 }
 ```
+
+## Credits
+
+A huge thanks to [Mike Daines](https://github.com/mdaines) for making GraphViz to some extent portable with [viz.js](https://github.com/mdaines/viz.js)
+and [Sten Roger Sandvik](https://github.com/srs) for creating [gradle-node-plugin](https://github.com/srs/gradle-node-plugin) which is used for setting up viz.js!
+
+## License
+
+gradle-graphviz-plugin is [MIT-licensed](https://github.com/jeysal/gradle-graphviz-plugin/blob/master/LICENSE).
