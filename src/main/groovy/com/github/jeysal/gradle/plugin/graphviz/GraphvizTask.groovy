@@ -22,17 +22,17 @@ class GraphvizTask extends DefaultTask {
     @Input
     String executablePath = ''
     /**
-     * Graphviz layout engine to use. Defaults to 'dot'.
+     * Graphviz layout engine to use. Defaults to the Graphviz executable's default layout (usually dot).
      */
     @Input
-    String layout = 'dot'
+    String layout = ''
     /**
-     * Graphviz output format to produce. Defaults to 'xdot'
+     * Graphviz output format to produce. Defaults to the Graphviz executable's default format (usually xdot).
      */
     @Input
-    String format = 'xdot'
+    String format = ''
     /**
-     * If true, the chosen format will be appended to every output file name. Defaults to true
+     * If true, the chosen format will be appended to every output file name. Defaults to true.
      */
     @Input
     boolean formatSuffix = true
@@ -76,7 +76,7 @@ class GraphvizTask extends DefaultTask {
 
     /**
      * Configures the sources to use via ant-style patterns.<br/>
-     * If not configured, sources default to the example below<br/>
+     * If not configured, sources default to the example below.<br/>
      * <b>Example:</b><br/>
      * <code>sources { include '**&#47;*.gv', '**&#47;*.dot' }</code>
      */

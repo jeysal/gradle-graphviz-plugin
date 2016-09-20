@@ -61,9 +61,9 @@ class GraphvizPluginIntegrationTest extends Specification {
 
         expect:
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
-        graphvizBuildDir.list() as Set == ['source.gv.xdot', 'other.gv.xdot'] as Set
-        new File(graphvizBuildDir, 'source.gv.xdot').text == getClass().getResourceAsStream("/dot.xdot").text
-        new File(graphvizBuildDir, 'other.gv.xdot').text == getClass().getResourceAsStream("/dot.xdot").text
+        graphvizBuildDir.list() as Set == ['source.gv', 'other.gv'] as Set
+        new File(graphvizBuildDir, 'source.gv').text == getClass().getResourceAsStream("/dot.xdot").text
+        new File(graphvizBuildDir, 'other.gv').text == getClass().getResourceAsStream("/dot.xdot").text
     }
 
     def 'graphviz task retains source directory structure'() {
@@ -75,8 +75,8 @@ class GraphvizPluginIntegrationTest extends Specification {
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
         graphvizBuildDir.list().toList() == ['abc']
         new File(graphvizBuildDir, 'abc').list().toList() == ['xyz']
-        new File(graphvizBuildDir, 'abc/xyz').list().toList() == ['source.gv.xdot']
-        new File(graphvizBuildDir, 'abc/xyz/source.gv.xdot').text == getClass().getResourceAsStream('/dot.xdot').text
+        new File(graphvizBuildDir, 'abc/xyz').list().toList() == ['source.gv']
+        new File(graphvizBuildDir, 'abc/xyz/source.gv').text == getClass().getResourceAsStream('/dot.xdot').text
     }
 
     def 'graphviz task ignores empty source directory'() {
@@ -105,8 +105,8 @@ class GraphvizPluginIntegrationTest extends Specification {
 
         expect:
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
-        graphvizBuildDir.list().toList() == ['source.gv.xdot']
-        new File(graphvizBuildDir, 'source.gv.xdot').text == getClass().getResourceAsStream("/dot.xdot").text
+        graphvizBuildDir.list().toList() == ['source.gv']
+        new File(graphvizBuildDir, 'source.gv').text == getClass().getResourceAsStream("/dot.xdot").text
     }
 
     def 'graphviz task writes to specified outputDir'() {
@@ -118,8 +118,8 @@ class GraphvizPluginIntegrationTest extends Specification {
 
         expect:
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
-        graphvizBuildDir.list().toList() == ['source.gv.xdot']
-        new File(graphvizBuildDir, 'source.gv.xdot').text == getClass().getResourceAsStream("/dot.xdot").text
+        graphvizBuildDir.list().toList() == ['source.gv']
+        new File(graphvizBuildDir, 'source.gv').text == getClass().getResourceAsStream("/dot.xdot").text
 
     }
 
@@ -133,7 +133,7 @@ class GraphvizPluginIntegrationTest extends Specification {
 
         expect:
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
-        graphvizBuildDir.list().toList() == ['source.gv.xdot']
-        new File(graphvizBuildDir, 'source.gv.xdot').text == getClass().getResourceAsStream("/dot.xdot").text
+        graphvizBuildDir.list().toList() == ['source.gv']
+        new File(graphvizBuildDir, 'source.gv').text == getClass().getResourceAsStream("/dot.xdot").text
     }
 }
