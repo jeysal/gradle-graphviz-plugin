@@ -21,6 +21,7 @@ You can specify any release number, the latest one available is**
 
 ### Gradle
 
+```groovy
     buildscript {
         repositories {
             jcenter()
@@ -32,3 +33,45 @@ You can specify any release number, the latest one available is**
     }
 
     apply plugin: 'com.github.jeysal.graphviz'
+```
+
+## Usage
+
+After applying the plugin, Graphviz will convert files in src/main/graphviz ending with .gv or .dot to xdot format and
+place the outputs in build/graphviz.
+
+## Configuration example
+
+```groovy
+/* Do not download a Graphviz executable.
+The plugin will try to find Graphviz on your PATH instead. */
+vizSetup.enabled = false
+
+graphviz {
+    /* Path of the Graphviz executable to use.
+    If not set, viz provided by :vizSetup or Graphviz from PATH environment variable is used. */
+    executablePath = '/usr/bin/dot'
+
+    // Graphviz layout engine to use. Defaults to the Graphviz executable's default layout (usually dot).
+    layout = 'neato'
+
+    // Graphviz output format to produce. Defaults to the Graphviz executable's default format (usually xdot).
+    format = 'svg'
+
+    // If true, the chosen format will be appended to every output file name. Defaults to true.
+    // Note that if you set this to false but specify multiple formats, the formats overwrite each other.
+    formatSuffix = false
+
+    // Directory to scan for source files. Defaults to src/main/graphviz.
+    sourceDir = file('graphvizSrc')
+    
+    // Directory to generate Graphviz output into. Defaults to build/graphviz.
+    outputDir = file('graphvizOut')
+
+    /* Configures the sources to use via ant-style patterns.
+    If not configured, sources default to the example below. */
+    sources {
+        include '**/*.gv', '**/*.dot'
+    }
+}
+```
