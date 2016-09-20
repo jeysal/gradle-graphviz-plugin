@@ -43,7 +43,7 @@ class GraphvizTask extends DefaultTask {
     Object sourceDir = new File(new File(new File(project.projectDir, 'src'), 'main'), 'graphviz')
 
     /**
-     * Directory to generate Graphviz output into
+     * Directory to generate Graphviz output into. Defaults to build/graphviz.
      */
     @OutputDirectory
     Object outputDir = new File(project.buildDir, 'graphviz')
