@@ -110,6 +110,21 @@ class GraphvizPluginIntegrationTest extends Specification {
         new File(graphvizBuildDir, 'source.gv').text == getClass().getResourceAsStream("/dot.xdot").text
     }
 
+    def 'the last format remains when disabling formatSuffix despite multiple formats'() {
+        setup:
+        new File(projectDir.newFolder('src', 'main', 'graphviz'), 'source.gv') <<
+                getClass().getResourceAsStream('/source.gv')
+        buildFile << '''graphviz {
+                            formats = ["xdot", "svg"]
+                            formatSuffix = false
+                        }\n'''
+
+        expect:
+        runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
+        graphvizBuildDir.list().toList() == ['source.gv']
+        new File(graphvizBuildDir, 'source.gv').text == getClass().getResourceAsStream("/dot.svg").text
+    }
+
     def 'graphviz task reads from specified sourceDir'() {
         setup:
         new File(projectDir.newFolder('altSrc'), 'source.gv') <<
