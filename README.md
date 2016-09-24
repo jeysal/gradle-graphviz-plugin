@@ -19,6 +19,8 @@ Add the following repository and dependency to your Gradle or Maven build config
 You can specify any release number, the latest one available is**
 [![Latest release](https://jitpack.io/v/com.github.jeysal/gradle-graphviz-plugin.svg?style=flat-square)](https://jitpack.io/#com.github.jeysal/gradle-graphviz-plugin)
 
+Only Gradle 3 is officially supported, the plugin may or may not work for Gradle 2.
+
 ### Gradle
 
 ```groovy
