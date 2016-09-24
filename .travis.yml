@@ -1,7 +1,12 @@
 language: java
-jdk:
-  - oraclejdk8
-  
+
+matrix:
+  include:
+    - os: linux
+      jdk: oraclejdk8
+    - os: osx
+      osx_image: xcode8
+
 script: ./gradlew check --info
 
 before_cache:
