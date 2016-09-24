@@ -55,11 +55,13 @@ graphviz {
     // Graphviz layout engine to use. Defaults to the Graphviz executable's default layout (usually dot).
     layout = 'neato'
 
-    // Graphviz output formats to produce. Defaults to the Graphviz executable's default format (usually xdot).
+    /* Graphviz output formats to produce. Defaults to the Graphviz executable's default format (usually xdot).
+    Note that if you specify a format twice or set formatSuffix to false,
+    the formats overwrite each other and only the last one remains. */
     formats = ['svg']
 
-    // If true, the chosen format will be appended to every output file name. Defaults to true.
-    // Note that if you set this to false but specify multiple formats, the formats overwrite each other.
+    /* If true, the chosen format will be appended to every output file name. Defaults to true.
+    The default format will not be appended since Graphviz itself decides what to generate in that case. */
     formatSuffix = false
 
     // Directory to scan for source files. Defaults to src/main/graphviz.
