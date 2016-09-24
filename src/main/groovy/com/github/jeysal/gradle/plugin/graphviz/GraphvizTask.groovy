@@ -27,12 +27,13 @@ class GraphvizTask extends DefaultTask {
     @Input
     String layout = ''
     /**
-     * Graphviz output format to produce. Defaults to the Graphviz executable's default format (usually xdot).
+     * Graphviz output formats to produce. Defaults to the Graphviz executable's default format (usually xdot).
      */
     @Input
-    String format = ''
+    List<String> formats = ['']
     /**
      * If true, the chosen format will be appended to every output file name. Defaults to true.
+     * Note that if you set this to false but specify multiple {@link #formats}, the formats overwrite each other.
      */
     @Input
     boolean formatSuffix = true

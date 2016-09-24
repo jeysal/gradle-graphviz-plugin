@@ -25,21 +25,25 @@ class GraphvizSourceFileVisitor implements FileVisitor {
     void visitFile(FileVisitDetails fileDetails) {
         def source = fileDetails.relativePath.getFile(graphviz.sourceDir)
         def target = fileDetails.relativePath.getFile(graphviz.outputDir)
-        def cmd = [graphviz.executablePath,
-                   '-o', target.path + ((graphviz.formatSuffix && graphviz.format) ? ".$graphviz.format" : ''),
-                   source.path]
 
-        if (graphviz.layout)
-            cmd << '-K' << graphviz.layout
-        if (graphviz.format)
-            cmd << '-T' << graphviz.format
+        graphviz.formats.forEach { format ->
 
-        def proc = cmd.execute()
-        proc.consumeProcessOutputStream(System.out as OutputStream)
-        proc.consumeProcessErrorStream(System.err as OutputStream)
-        if (proc.waitFor()) {
-            fileDetails.stopVisiting()
-            throw new TaskExecutionException(graphviz, new RuntimeException("graphviz command $cmd failed"))
+            def cmd = [graphviz.executablePath,
+                       '-o', target.path + ((graphviz.formatSuffix && format) ? ".$format" : ''),
+                       source.path]
+
+            if (graphviz.layout)
+                cmd << '-K' << graphviz.layout
+            if (format)
+                cmd << '-T' << format
+
+            def proc = cmd.execute()
+            proc.consumeProcessOutputStream(System.out as OutputStream)
+            proc.consumeProcessErrorStream(System.err as OutputStream)
+            if (proc.waitFor()) {
+                fileDetails.stopVisiting()
+                throw new TaskExecutionException(graphviz, new RuntimeException("graphviz command $cmd failed"))
+            }
         }
     }
 }

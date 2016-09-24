@@ -34,7 +34,7 @@ class GraphvizPluginIntegrationTest extends Specification {
                 getClass().getResourceAsStream('/source.gv')
         buildFile << """graphviz {
                             layout = '$layout'
-                            format = '$format'
+                            formats = ['$format']
                         }\n"""
 
         expect:
