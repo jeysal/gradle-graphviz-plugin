@@ -164,4 +164,17 @@ class GraphvizPluginIntegrationTest extends Specification {
         graphvizBuildDir.list() as Set == ['source.gv'] as Set
         new File(graphvizBuildDir, 'source.gv').text == getClass().getResourceAsStream("/dot.xdot").text
     }
+
+    def 'graphviz task is UP-TO-DATE on unchanged second execution'() {
+        setup:
+        new File(projectDir.newFolder('src', 'main', 'graphviz'), 'source.gv') <<
+                getClass().getResourceAsStream('/source.gv')
+
+        expect:
+        runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
+        GradleRunner.create().withProjectDir(projectDir.root).withPluginClasspath()
+                .withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.UP_TO_DATE
+        graphvizBuildDir.list() as Set == ['source.gv'] as Set
+        new File(graphvizBuildDir, 'source.gv').text == getClass().getResourceAsStream("/dot.xdot").text
+    }
 }
