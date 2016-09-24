@@ -1,6 +1,8 @@
 package com.github.jeysal.gradle.plugin.graphviz.exec
 
 import com.github.jeysal.gradle.plugin.graphviz.GraphvizTask
+import com.github.jeysal.gradle.plugin.graphviz.node.VizSetupTask
+import groovy.util.logging.Slf4j
 import org.gradle.api.file.FileVisitDetails
 import org.gradle.api.file.FileVisitor
 import org.gradle.api.tasks.TaskExecutionException
@@ -9,6 +11,7 @@ import org.gradle.api.tasks.TaskExecutionException
  * @author Tim Seckinger
  * @since 9/14/16
  */
+@Slf4j
 class GraphvizSourceFileVisitor implements FileVisitor {
     private final GraphvizTask graphviz
 
@@ -26,19 +29,14 @@ class GraphvizSourceFileVisitor implements FileVisitor {
         final def source = fileDetails.relativePath.getFile(graphviz.sourceDir)
         final def target = fileDetails.relativePath.getFile(graphviz.outputDir)
 
-        graphviz.formats.forEach { final format ->
-
-            final def cmd = [graphviz.executablePath,
-                             '-o', target.path + ((graphviz.formatSuffix && format) ? ".$format" : ''),
-                             source.path]
-
-            if (graphviz.layout)
-                cmd << '-K' << graphviz.layout
-            if (format)
-                cmd << '-T' << format
-
+        graphviz.formats.each { final format ->
             try {
-                final def proc = cmd.execute()
+                final def cmd = buildCmd(source, target, format)
+                final def env = (graphviz.project.tasks.find {
+                    it.name == VizSetupTask.NAME
+                }?.enabled) ? buildEnv() : null
+
+                final def proc = cmd.execute(env, null)
 
                 proc.consumeProcessOutputStream(System.out as OutputStream)
                 proc.consumeProcessErrorStream(System.err as OutputStream)
@@ -49,9 +47,33 @@ class GraphvizSourceFileVisitor implements FileVisitor {
                     throw new TaskExecutionException(graphviz,
                             new RuntimeException("graphviz command $cmd failed with exit code $exitCode"))
                 }
-            } catch (IOException | InterruptedException e) {
+            } catch (final IOException | InterruptedException e) {
                 throw new TaskExecutionException(graphviz, e)
             }
         }
+    }
+
+    private String[] buildEnv() {
+        final def env = [:] << System.getenv()
+
+        if (['Path', 'PATH'].findAll { env[it] != null }.each {
+            env[it] = graphviz.project.extensions.node.variant.nodeBinDir.absolutePath + File.pathSeparator + env[it]
+        }.empty)
+            log.warn 'Failed to set environment for executing graphviz, no path variable found in environment'
+
+        env
+    }
+
+    private List<String> buildCmd(final File source, final File target, final String format) {
+        final def cmd = [graphviz.executablePath,
+                         '-o', target.path + ((graphviz.formatSuffix && format) ? ".$format" : ''),
+                         source.path]
+
+        if (graphviz.layout)
+            cmd << '-K' << graphviz.layout
+        if (format)
+            cmd << '-T' << format
+
+        cmd
     }
 }
