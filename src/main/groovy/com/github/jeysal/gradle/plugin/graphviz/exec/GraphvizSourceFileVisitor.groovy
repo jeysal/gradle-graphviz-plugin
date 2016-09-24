@@ -37,12 +37,20 @@ class GraphvizSourceFileVisitor implements FileVisitor {
             if (format)
                 cmd << '-T' << format
 
-            final def proc = cmd.execute()
-            proc.consumeProcessOutputStream(System.out as OutputStream)
-            proc.consumeProcessErrorStream(System.err as OutputStream)
-            if (proc.waitFor()) {
-                fileDetails.stopVisiting()
-                throw new TaskExecutionException(graphviz, new RuntimeException("graphviz command $cmd failed"))
+            try {
+                final def proc = cmd.execute()
+
+                proc.consumeProcessOutputStream(System.out as OutputStream)
+                proc.consumeProcessErrorStream(System.err as OutputStream)
+
+                final def exitCode = proc.waitFor()
+                if (exitCode) {
+                    fileDetails.stopVisiting()
+                    throw new TaskExecutionException(graphviz,
+                            new RuntimeException("graphviz command $cmd failed with exit code $exitCode"))
+                }
+            } catch (IOException | InterruptedException e) {
+                throw new TaskExecutionException(graphviz, e)
             }
         }
     }
