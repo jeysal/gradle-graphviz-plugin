@@ -16,7 +16,7 @@ class NodeManager {
 
     private final Project project
 
-    NodeManager(Project project) {
+    NodeManager(final Project project) {
         this.project = project
     }
 
@@ -28,7 +28,7 @@ class NodeManager {
     void prepareNode() {
         if (!project.pluginManager.hasPlugin(NODE_PLUGIN_ID)) {
             project.pluginManager.apply(NODE_PLUGIN_ID)
-            NodeExtension node = project.extensions.node
+            final NodeExtension node = project.extensions.node
 
             node.download = true
             node.version = NODE_VERSION

@@ -31,7 +31,7 @@ class NodeManagerTest extends Specification {
         manager.prepareNode()
 
         then:
-        NodeExtension node = project.extensions.node
+        final NodeExtension node = project.extensions.node
         node.download
         node.version == NodeManager.NODE_VERSION
         node.nodeModulesDir == new File(project.projectDir, '.gradle')
@@ -51,7 +51,7 @@ class NodeManagerTest extends Specification {
     def 'prepareNode() does not configure the gradle-node-plugin if already applied'() {
         setup:
         project.pluginManager.apply(NodeManager.NODE_PLUGIN_ID)
-        NodeExtension node = project.extensions.node
+        final NodeExtension node = project.extensions.node
         node.download = false
         node.version = 'asdf'
         node.nodeModulesDir = project.projectDir

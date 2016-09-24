@@ -59,8 +59,8 @@ class GraphvizTask extends DefaultTask {
     }
 
     String getExecutablePath() {
-        def isWindows = OperatingSystem.current().windows
-        def useVizJs = project.tasks.find { it.name == VizSetupTask.NAME }?.enabled
+        final def isWindows = OperatingSystem.current().windows
+        final def useVizJs = project.tasks.find { it.name == VizSetupTask.NAME }?.enabled
         return executablePath ?: (useVizJs
                 ? new File(new File(new File(project.extensions.node.nodeModulesDir as File, 'node_modules'), '.bin'),
                 'dot' + (isWindows ? '.cmd' : '')).path
@@ -81,9 +81,9 @@ class GraphvizTask extends DefaultTask {
      * <b>Example:</b><br/>
      * <code>sources { include '**&#47;*.gv', '**&#47;*.dot' }</code>
      */
-    void sources(Closure config) {
+    void sources(final Closure config) {
         sourcePatterns = sourcePatterns ?: new PatternSet()
-        Closure configClone = config.clone() as Closure
+        final Closure configClone = config.clone() as Closure
         configClone.delegate = sourcePatterns
         configClone()
     }

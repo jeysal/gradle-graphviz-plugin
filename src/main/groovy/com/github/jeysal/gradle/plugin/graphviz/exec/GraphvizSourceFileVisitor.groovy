@@ -10,34 +10,34 @@ import org.gradle.api.tasks.TaskExecutionException
  * @since 9/14/16
  */
 class GraphvizSourceFileVisitor implements FileVisitor {
-    private GraphvizTask graphviz
+    private final GraphvizTask graphviz
 
-    GraphvizSourceFileVisitor(GraphvizTask graphviz) {
+    GraphvizSourceFileVisitor(final GraphvizTask graphviz) {
         this.graphviz = graphviz
     }
 
     @Override
-    void visitDir(FileVisitDetails dirDetails) {
+    void visitDir(final FileVisitDetails dirDetails) {
         // Do nothing
     }
 
     @Override
-    void visitFile(FileVisitDetails fileDetails) {
-        def source = fileDetails.relativePath.getFile(graphviz.sourceDir)
-        def target = fileDetails.relativePath.getFile(graphviz.outputDir)
+    void visitFile(final FileVisitDetails fileDetails) {
+        final def source = fileDetails.relativePath.getFile(graphviz.sourceDir)
+        final def target = fileDetails.relativePath.getFile(graphviz.outputDir)
 
-        graphviz.formats.forEach { format ->
+        graphviz.formats.forEach { final format ->
 
-            def cmd = [graphviz.executablePath,
-                       '-o', target.path + ((graphviz.formatSuffix && format) ? ".$format" : ''),
-                       source.path]
+            final def cmd = [graphviz.executablePath,
+                             '-o', target.path + ((graphviz.formatSuffix && format) ? ".$format" : ''),
+                             source.path]
 
             if (graphviz.layout)
                 cmd << '-K' << graphviz.layout
             if (format)
                 cmd << '-T' << format
 
-            def proc = cmd.execute()
+            final def proc = cmd.execute()
             proc.consumeProcessOutputStream(System.out as OutputStream)
             proc.consumeProcessErrorStream(System.err as OutputStream)
             if (proc.waitFor()) {
