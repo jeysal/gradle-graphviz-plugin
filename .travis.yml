@@ -3,6 +3,8 @@ os:
   - osx
 
 language: java
+jdk:
+  - oraclejdk8
   
 script: ./gradlew check --info
 
