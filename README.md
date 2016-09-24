@@ -44,7 +44,9 @@ place the outputs in build/graphviz.
 
 ```groovy
 /* Do not download a Graphviz executable.
-The plugin will try to find Graphviz on your PATH instead. */
+The plugin will try to find Graphviz on your PATH instead.
+Note that using a regular Graphviz may cause problems
+such as failing to write files in subdirectories of the outputDir */
 vizSetup.enabled = false
 
 graphviz {
