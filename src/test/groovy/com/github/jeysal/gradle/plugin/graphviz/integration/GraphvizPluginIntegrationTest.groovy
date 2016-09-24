@@ -39,7 +39,7 @@ class GraphvizPluginIntegrationTest extends Specification {
 
         expect:
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
-        graphvizBuildDir.list().toList() == [outputName.toString()]
+        graphvizBuildDir.list() as Set == [outputName.toString()] as Set
         new File(graphvizBuildDir, outputName).text == getClass().getResourceAsStream("/$layout.$format").text
 
         where:
@@ -86,9 +86,9 @@ class GraphvizPluginIntegrationTest extends Specification {
 
         expect:
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
-        graphvizBuildDir.list().toList() == ['abc']
-        new File(graphvizBuildDir, 'abc').list().toList() == ['xyz']
-        new File(graphvizBuildDir, 'abc/xyz').list().toList() == ['source.gv']
+        graphvizBuildDir.list() as Set == ['abc'] as Set
+        new File(graphvizBuildDir, 'abc').list() as Set == ['xyz'] as Set
+        new File(graphvizBuildDir, 'abc/xyz').list() as Set == ['source.gv'] as Set
         new File(graphvizBuildDir, 'abc/xyz/source.gv').text == getClass().getResourceAsStream('/dot.xdot').text
     }
 
@@ -106,7 +106,7 @@ class GraphvizPluginIntegrationTest extends Specification {
 
         expect:
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
-        graphvizBuildDir.list().toList() == ['source.gv']
+        graphvizBuildDir.list() as Set == ['source.gv'] as Set
         new File(graphvizBuildDir, 'source.gv').text == getClass().getResourceAsStream("/dot.xdot").text
     }
 
@@ -121,7 +121,7 @@ class GraphvizPluginIntegrationTest extends Specification {
 
         expect:
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
-        graphvizBuildDir.list().toList() == ['source.gv']
+        graphvizBuildDir.list() as Set == ['source.gv'] as Set
         new File(graphvizBuildDir, 'source.gv').text == getClass().getResourceAsStream("/dot.svg").text
     }
 
@@ -133,7 +133,7 @@ class GraphvizPluginIntegrationTest extends Specification {
 
         expect:
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
-        graphvizBuildDir.list().toList() == ['source.gv']
+        graphvizBuildDir.list() as Set == ['source.gv'] as Set
         new File(graphvizBuildDir, 'source.gv').text == getClass().getResourceAsStream("/dot.xdot").text
     }
 
@@ -146,7 +146,7 @@ class GraphvizPluginIntegrationTest extends Specification {
 
         expect:
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
-        graphvizBuildDir.list().toList() == ['source.gv']
+        graphvizBuildDir.list() as Set == ['source.gv'] as Set
         new File(graphvizBuildDir, 'source.gv').text == getClass().getResourceAsStream("/dot.xdot").text
 
     }
@@ -161,7 +161,7 @@ class GraphvizPluginIntegrationTest extends Specification {
 
         expect:
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
-        graphvizBuildDir.list().toList() == ['source.gv']
+        graphvizBuildDir.list() as Set == ['source.gv'] as Set
         new File(graphvizBuildDir, 'source.gv').text == getClass().getResourceAsStream("/dot.xdot").text
     }
 }
