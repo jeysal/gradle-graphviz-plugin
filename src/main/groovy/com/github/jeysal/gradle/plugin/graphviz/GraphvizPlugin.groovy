@@ -1,5 +1,6 @@
 package com.github.jeysal.gradle.plugin.graphviz
 
+import com.github.jeysal.gradle.plugin.graphviz.asciidoctor.AsciidoctorManager
 import com.github.jeysal.gradle.plugin.graphviz.node.NodeManager
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -16,5 +17,8 @@ class GraphvizPlugin implements Plugin<Project> {
         nodeManager.addVizSetupTask()
 
         project.tasks.create(GraphvizTask.NAME, GraphvizTask)
+
+        final def asciidoctorManager = new AsciidoctorManager(project)
+        project.afterEvaluate asciidoctorManager.&registerGraphviz
     }
 }
