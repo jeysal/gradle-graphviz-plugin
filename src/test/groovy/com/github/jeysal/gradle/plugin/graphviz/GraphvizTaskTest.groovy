@@ -57,8 +57,7 @@ class GraphvizTaskTest extends Specification {
         node.addVizSetupTask()
 
         then:
-        graphviz.executablePath == new File(new File(new File(new File(project.projectDir, '.gradle'),
-                'node_modules'), '.bin'), 'dot' + (isWindows ? '.cmd' : '')).path
+        graphviz.executablePath == new File(project.projectDir, '.gradle/graphvizdot' + (isWindows ? '.cmd' : '')).path
     }
 
     def 'getExecutablePath() returns the default if VizSetupTask is not present'() {

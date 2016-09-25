@@ -62,10 +62,9 @@ class GraphvizTask extends DefaultTask {
 
     String getExecutablePath() {
         final def isWindows = OperatingSystem.current().windows
-        final def useVizJs = project.tasks.find { it.name == VizSetupTask.NAME }?.enabled
-        return executablePath ?: (useVizJs
-                ? new File(new File(new File(project.extensions.node.nodeModulesDir as File, 'node_modules'), '.bin'),
-                'dot' + (isWindows ? '.cmd' : '')).path
+        final VizSetupTask vizSetup = project.tasks.findByName(VizSetupTask.NAME) as VizSetupTask
+        return executablePath ?: (vizSetup?.enabled
+                ? vizSetup.wrapper.path
                 : 'dot' + (isWindows ? '.exe' : ''))
     }
 
