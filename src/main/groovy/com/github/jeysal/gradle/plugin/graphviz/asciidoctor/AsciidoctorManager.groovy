@@ -8,6 +8,8 @@ import org.gradle.api.Project
  * @since 9/24/16
  */
 class AsciidoctorManager {
+    public static final ASCIIDOCTOR_PLUGIN_ID = 'org.asciidoctor.convert'
+
     private final Project project
 
     AsciidoctorManager(final Project project) {
@@ -18,7 +20,7 @@ class AsciidoctorManager {
      * If present, tells asciidoctor where to find Graphviz.
      */
     void registerGraphviz() {
-        if (project.extensions.graphvizHooks.asciidoctor) {
+        if (project.extensions.graphvizHooks.asciidoctor && project.pluginManager.hasPlugin(ASCIIDOCTOR_PLUGIN_ID)) {
             def asciidoctor = project.tasks.findByName 'asciidoctor'
 
             asciidoctor?.dependsOn VizSetupTask.NAME
