@@ -7,7 +7,7 @@
 A [Gradle](https://gradle.org/) plugin to make builds using [Graphviz](http://www.graphviz.org/) portable.
 The plugin will download all necessary files and run Graphviz on your sources - on Windows, Mac and Linux.
 
-Uses [viz.js](https://github.com/mdaines/viz.js/) via [viz.js-cli-wrapper](https://github.com/jeysal/viz.js-cli-wrapper) installed via [gradle-node-plugin](https://github.com/srs/gradle-node-plugin).
+Uses [viz.js](https://github.com/mdaines/viz.js/) via [viz.js-cli-wrapper](https://github.com/jeysal/viz.js-cli-wrapper) installed via [gradle-node-plugin](https://github.com/srs/gradle-node-plugin).  
 Compared to the original Graphviz, viz.js has a few limitations. See [here](https://github.com/jeysal/viz.js-cli-wrapper#usage) for details.
 
 ## Installation
@@ -98,7 +98,7 @@ graphvizHooks.asciidoctor = false
 
 ## Credits
 
-A huge thanks to [Mike Daines](https://github.com/mdaines) for making GraphViz to some extent portable with [viz.js](https://github.com/mdaines/viz.js)
+A huge thanks to [Mike Daines](https://github.com/mdaines) for making GraphViz to some extent portable with [viz.js](https://github.com/mdaines/viz.js)  
 and [Sten Roger Sandvik](https://github.com/srs) for creating [gradle-node-plugin](https://github.com/srs/gradle-node-plugin) which is used for setting up viz.js!
 
 ## License
