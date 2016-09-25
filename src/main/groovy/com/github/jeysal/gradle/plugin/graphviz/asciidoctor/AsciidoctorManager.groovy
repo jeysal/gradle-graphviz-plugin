@@ -18,7 +18,7 @@ class AsciidoctorManager {
      * If present, tells asciidoctor where to find Graphviz.
      */
     void registerGraphviz() {
-        if (project.extensions.graphvizHooks.asciidoctor.enabled) {
+        if (project.extensions.graphvizHooks.asciidoctor) {
             def asciidoctor = project.tasks.findByName 'asciidoctor'
 
             asciidoctor?.dependsOn VizSetupTask.NAME

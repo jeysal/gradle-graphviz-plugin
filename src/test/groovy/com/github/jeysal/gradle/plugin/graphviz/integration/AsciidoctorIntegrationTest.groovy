@@ -46,4 +46,22 @@ class AsciidoctorIntegrationTest extends Specification {
                         '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"')
         !new File(asciidoctorBuildDir, 'test.svg').text.contains('Cannot find Graphviz')
     }
+
+    def 'vizSetup is not run if asciidoctor hook is disabled'() {
+        setup:
+        new File(projectDir.newFolder('src', 'docs', 'asciidoc'), 'source.adoc') <<
+                getClass().getResourceAsStream('/asciidoctor/source.adoc')
+        buildFile << 'graphvizHooks.asciidoctor = false\n'
+
+        when:
+        final def result = runner.build()
+
+        then:
+        result.task(':asciidoctor').outcome == TaskOutcome.SUCCESS
+        result.task(':vizSetup') == null
+        asciidoctorBuildDir.list() as Set == ['source.html', 'test.svg', '.asciidoctor'] as Set
+        new File(asciidoctorBuildDir, 'test.svg').text.startsWith(
+                '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"')
+    }
 }
