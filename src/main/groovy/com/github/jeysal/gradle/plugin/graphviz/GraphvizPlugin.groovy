@@ -18,6 +18,8 @@ class GraphvizPlugin implements Plugin<Project> {
 
         project.tasks.create(GraphvizTask.NAME, GraphvizTask)
 
+        project.extensions.create(GraphvizHooksExtension.NAME, GraphvizHooksExtension)
+
         final def asciidoctorManager = new AsciidoctorManager(project)
         project.afterEvaluate asciidoctorManager.&registerGraphviz
     }
