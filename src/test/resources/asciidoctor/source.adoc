@@ -1,0 +1,4 @@
+[plantuml,test,svg]
+--
+a->b
+--
