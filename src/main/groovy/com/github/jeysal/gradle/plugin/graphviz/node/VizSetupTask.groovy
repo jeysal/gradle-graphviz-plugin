@@ -15,18 +15,18 @@ class VizSetupTask extends NpmTask {
     public static final String NAME = 'vizSetup'
 
     public static final String VIZ_MODULE_NAME = 'viz.js-cli-wrapper'
-    public static final String VIZ_MODULE_VERSION = '1.1.3'
+    public static final String VIZ_MODULE_VERSION = '1.1.4'
 
     boolean isWindows
 
     @Input
-    File node;
+    File node
     @Input
-    File dot;
+    File dot
     @OutputFile
     File wrapper
 
-    public VizSetupTask() {
+    VizSetupTask() {
         group = 'Node'
         description = 'Installs the viz binaries via npm'
 
