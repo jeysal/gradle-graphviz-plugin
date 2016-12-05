@@ -50,7 +50,7 @@ class GraphvizTaskTest extends Specification {
 
     def 'getExecutablePath() returns the viz.js path if enabled'() {
         setup:
-        final def node = new NodeManager(project)
+        final node = new NodeManager(project)
         node.prepareNode()
 
         when:
@@ -67,9 +67,9 @@ class GraphvizTaskTest extends Specification {
 
     def 'getExecutablePath() returns the default if VizSetupTask is disabled'() {
         setup:
-        final def node = new NodeManager(project)
+        final node = new NodeManager(project)
         node.prepareNode()
-        final def vizSetup = node.addVizSetupTask()
+        final vizSetup = node.addVizSetupTask()
 
         when:
         vizSetup.enabled = false

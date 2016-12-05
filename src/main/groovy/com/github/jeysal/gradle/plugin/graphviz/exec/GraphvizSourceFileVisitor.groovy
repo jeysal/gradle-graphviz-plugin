@@ -25,18 +25,18 @@ class GraphvizSourceFileVisitor implements FileVisitor {
 
     @Override
     void visitFile(final FileVisitDetails fileDetails) {
-        final def source = fileDetails.relativePath.getFile(graphviz.sourceDir)
-        final def target = fileDetails.relativePath.getFile(graphviz.outputDir)
+        final source = fileDetails.relativePath.getFile(graphviz.sourceDir)
+        final target = fileDetails.relativePath.getFile(graphviz.outputDir)
 
         graphviz.formats.each { final format ->
             try {
-                final def cmd = buildCmd(source, target, format)
-                final def proc = cmd.execute()
+                final cmd = buildCmd(source, target, format)
+                final proc = cmd.execute()
 
                 proc.consumeProcessOutputStream(System.out as OutputStream)
                 proc.consumeProcessErrorStream(System.err as OutputStream)
 
-                final def exitCode = proc.waitFor()
+                final exitCode = proc.waitFor()
                 if (exitCode) {
                     fileDetails.stopVisiting()
                     throw new TaskExecutionException(graphviz,
@@ -49,7 +49,7 @@ class GraphvizSourceFileVisitor implements FileVisitor {
     }
 
     private List<String> buildCmd(final File source, final File target, final String format) {
-        final def cmd = [graphviz.executablePath,
+        final cmd = [graphviz.executablePath,
                          '-o', target.path + ((graphviz.formatSuffix && format) ? ".$format" : ''),
                          source.path]
 

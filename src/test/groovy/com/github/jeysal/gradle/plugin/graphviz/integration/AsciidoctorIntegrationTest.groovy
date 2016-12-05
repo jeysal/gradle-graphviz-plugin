@@ -35,7 +35,7 @@ class AsciidoctorIntegrationTest extends Specification {
                 getClass().getResourceAsStream('/asciidoctor/source.adoc')
 
         when:
-        final def result = runner.build()
+        final result = runner.build()
 
         then:
         result.task(':asciidoctor').outcome == TaskOutcome.SUCCESS
@@ -54,7 +54,7 @@ class AsciidoctorIntegrationTest extends Specification {
         buildFile << 'graphvizHooks.asciidoctor = false\n'
 
         when:
-        final def result = runner.build()
+        final result = runner.build()
 
         then:
         result.task(':asciidoctor').outcome == TaskOutcome.SUCCESS

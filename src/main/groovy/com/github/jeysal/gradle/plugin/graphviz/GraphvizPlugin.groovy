@@ -12,7 +12,7 @@ import org.gradle.api.Project
 class GraphvizPlugin implements Plugin<Project> {
     @Override
     void apply(final Project project) {
-        final def nodeManager = new NodeManager(project)
+        final nodeManager = new NodeManager(project)
         nodeManager.prepareNode()
         nodeManager.addVizSetupTask()
 
@@ -20,7 +20,7 @@ class GraphvizPlugin implements Plugin<Project> {
 
         project.extensions.create(GraphvizHooksExtension.NAME, GraphvizHooksExtension)
 
-        final def asciidoctorManager = new AsciidoctorManager(project)
+        final asciidoctorManager = new AsciidoctorManager(project)
         project.afterEvaluate asciidoctorManager.&registerGraphviz
     }
 }

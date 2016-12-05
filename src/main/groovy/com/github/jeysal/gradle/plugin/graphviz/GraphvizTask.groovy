@@ -61,7 +61,7 @@ class GraphvizTask extends DefaultTask {
     }
 
     String getExecutablePath() {
-        final def isWindows = OperatingSystem.current().windows
+        final isWindows = OperatingSystem.current().windows
         final VizSetupTask vizSetup = project.tasks.findByName(VizSetupTask.NAME) as VizSetupTask
         return executablePath ?: (vizSetup?.enabled
                 ? vizSetup.wrapper.path
