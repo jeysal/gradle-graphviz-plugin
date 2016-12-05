@@ -27,7 +27,7 @@ repositories {
 
 dependencies {
     // Node
-    compile 'com.moowork.gradle:gradle-node-plugin:0.13'
+    compile 'com.moowork.gradle:gradle-node-plugin:1.0.0'
 
     // Test
     testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {

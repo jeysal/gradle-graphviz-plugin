@@ -1,7 +1,7 @@
 package com.github.jeysal.gradle.plugin.graphviz.node
 
-import com.moowork.gradle.node.task.NpmSetupTask
-import com.moowork.gradle.node.task.NpmTask
+import com.moowork.gradle.node.npm.NpmSetupTask
+import com.moowork.gradle.node.npm.NpmTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
