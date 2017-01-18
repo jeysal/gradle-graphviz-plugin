@@ -50,8 +50,8 @@ class GraphvizSourceFileVisitor implements FileVisitor {
 
     private List<String> buildCmd(final File source, final File target, final String format) {
         final cmd = [graphviz.executablePath,
-                         '-o', target.path + ((graphviz.formatSuffix && format) ? ".$format" : ''),
-                         source.path]
+                     '-o', target.path + ((graphviz.formatSuffix && format) ? ".$format" : ''),
+                     source.path]
 
         if (graphviz.layout)
             cmd << '-K' << graphviz.layout
