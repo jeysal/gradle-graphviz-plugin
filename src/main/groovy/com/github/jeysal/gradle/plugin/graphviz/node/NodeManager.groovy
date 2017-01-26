@@ -33,7 +33,7 @@ class NodeManager {
             node.download = true
             node.version = NODE_VERSION
             node.nodeModulesDir = project.gradle.startParameter.projectCacheDir ?:
-                    new File(project.projectDir, '.gradle')
+                    new File(project.rootProject.projectDir, '.gradle')
         }
     }
 
