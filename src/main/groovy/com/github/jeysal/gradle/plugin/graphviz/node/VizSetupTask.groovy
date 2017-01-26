@@ -15,7 +15,7 @@ class VizSetupTask extends NpmTask {
     public static final String NAME = 'vizSetup'
 
     public static final String VIZ_MODULE_NAME = 'viz.js-cli-wrapper'
-    public static final String VIZ_MODULE_VERSION = '1.1.5'
+    public static final String VIZ_MODULE_VERSION = '1.2.1'
 
     boolean isWindows
 
