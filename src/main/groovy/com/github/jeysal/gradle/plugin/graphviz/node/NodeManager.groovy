@@ -12,7 +12,7 @@ import org.gradle.api.Project
  */
 class NodeManager {
     public static final String NODE_PLUGIN_ID = 'com.moowork.node'
-    public static final String NODE_VERSION = '7.2.0'
+    public static final String NODE_VERSION = '7.4.0'
 
     private final Project project
 
