@@ -42,7 +42,7 @@ class AsciidoctorIntegrationTest extends Specification {
         result.task(':vizSetup').outcome == TaskOutcome.SUCCESS
         asciidoctorBuildDir.list() as Set == ['source.html', 'test.svg', '.asciidoctor'] as Set
         new File(asciidoctorBuildDir, 'test.svg').text.startsWith(
-                '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+                '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
                         '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"')
         !new File(asciidoctorBuildDir, 'test.svg').text.contains('Cannot find Graphviz')
     }
@@ -61,7 +61,7 @@ class AsciidoctorIntegrationTest extends Specification {
         result.task(':vizSetup') == null
         asciidoctorBuildDir.list() as Set == ['source.html', 'test.svg', '.asciidoctor'] as Set
         new File(asciidoctorBuildDir, 'test.svg').text.startsWith(
-                '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+                '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
                         '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"')
     }
 }
