@@ -12,29 +12,29 @@ Compared to the original Graphviz, viz.js has a few limitations. See [here](http
 
 ## Installation
 
-You can retrieve the plugin from the jitpack.io repository. The jcenter (or maven central) is additionally required for transitive dependencies.
-Add the following repository and dependency to your Gradle or Maven build config.
+You can retrieve the plugin from the [jitpack.io](https://jitpack.io/) repository. The gradle plugin repository is additionally required for transitive dependencies.
+Add the following buildscript repositories and dependency to your Gradle build config.
 
 **Note that specifying the version `master-SNAPSHOT` will get you the artifact based on the current commit on branch master.  
 You can specify any release number, the latest one available is**
 [![Latest release](https://jitpack.io/v/com.github.jeysal/gradle-graphviz-plugin.svg?style=flat-square)](https://jitpack.io/#com.github.jeysal/gradle-graphviz-plugin)
 
-Only Gradle 3 is officially supported, the plugin may or may not work for Gradle 2.
+Only Gradle 3 is supported, the plugin may or may not work for Gradle 2.
 
 ### Gradle
 
 ```groovy
-    buildscript {
-        repositories {
-            jcenter()
-            maven { url 'https://jitpack.io' }
-        }
-        dependencies {
-            classpath 'com.github.jeysal:gradle-graphviz-plugin:master-SNAPSHOT'
-        }
+buildscript {
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2' }
+        maven { url 'https://jitpack.io' }
     }
+    dependencies {
+        classpath 'com.github.jeysal:gradle-graphviz-plugin:master-SNAPSHOT'
+    }
+}
 
-    apply plugin: 'com.github.jeysal.graphviz'
+apply plugin: 'com.github.jeysal.graphviz'
 ```
 
 ## Usage
