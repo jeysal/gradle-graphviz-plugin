@@ -12,7 +12,6 @@ import org.gradle.api.Project
  */
 class NodeManager {
     public static final String NODE_PLUGIN_ID = 'com.moowork.node'
-    public static final String NODE_VERSION = '7.4.0'
 
     private final Project project
 
@@ -31,7 +30,6 @@ class NodeManager {
             final NodeExtension node = project.extensions.node
 
             node.download = true
-            node.version = NODE_VERSION
             node.nodeModulesDir = project.gradle.startParameter.projectCacheDir ?:
                     new File(project.rootProject.projectDir, '.gradle')
         }

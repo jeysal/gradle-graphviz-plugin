@@ -33,7 +33,6 @@ class NodeManagerTest extends Specification {
         then:
         final NodeExtension node = project.extensions.node
         node.download
-        node.version == NodeManager.NODE_VERSION
         node.nodeModulesDir == new File(project.projectDir, '.gradle')
     }
 
