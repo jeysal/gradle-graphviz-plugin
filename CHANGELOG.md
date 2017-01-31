@@ -1,20 +1,13 @@
 # Changelog
 
-## 1.1.2
+## 1.3.0
+### Features
+* always use the latest compatible viz.js
 
-_update node + viz.js-cli-wrapper package_
-
-_graphviz 2.38.0 -> 2.40.1_
-
-
-
-## 1.1.1
-
-_update node + viz.js-cli-wrapper package_
-
+## 1.2.0
+### Features
+* update viz.js-embedded graphviz from 2.38.0 to 2.40.1
 
 ## 1.1.0
-
 ### Features
-
 * add [asciidoctor-diagram](http://asciidoctor.org/docs/asciidoctor-diagram/) integration
