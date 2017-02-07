@@ -2,6 +2,7 @@ package com.github.jeysal.gradle.plugin.graphviz.node
 
 import com.moowork.gradle.node.npm.NpmSetupTask
 import com.moowork.gradle.node.npm.NpmTask
+import org.gradle.api.logging.LogLevel
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
@@ -30,7 +31,11 @@ class VizSetupTask extends NpmTask {
         group = 'Node'
         description = 'Installs the viz binaries via npm'
 
-        setNpmCommand 'install', '--silent', "$VIZ_MODULE_NAME@$VIZ_MODULE_VERSION"
+        final npmSilenceParams = project.logging.level == LogLevel.DEBUG ? [] : ['--silent']
+
+        setNpmCommand('install',
+                *npmSilenceParams,
+                "$VIZ_MODULE_NAME@$VIZ_MODULE_VERSION")
         dependsOn NpmSetupTask.NAME
 
         isWindows = OperatingSystem.current().windows
