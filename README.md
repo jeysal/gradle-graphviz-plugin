@@ -8,7 +8,7 @@ A [Gradle](https://gradle.org/) plugin to make builds using [Graphviz](http://ww
 The plugin will download all necessary files and run Graphviz on your sources - on Windows, Mac and Linux.
 
 Uses [viz.js](https://github.com/mdaines/viz.js/) via [viz.js-cli-wrapper](https://github.com/jeysal/viz.js-cli-wrapper) installed via [gradle-node-plugin](https://github.com/srs/gradle-node-plugin).  
-Compared to the original Graphviz, viz.js has a few limitations. See [here](https://github.com/jeysal/viz.js-cli-wrapper#usage) for details.
+Compared to the original Graphviz, viz.js has a few limitations. See [here](https://github.com/jeysal/viz.js-cli-wrapper#command-line-interface) for details.
 
 ## Installation
 
