@@ -48,7 +48,9 @@ place the outputs in build/graphviz.
 /* Do not download a Graphviz executable.
 The plugin will try to find Graphviz on your PATH instead.
 Note that using a regular Graphviz may cause problems
-such as failing to write files in subdirectories of the outputDir */
+such as failing to write files in subdirectories of the outputDir.
+For this reason and to preserve build portability,
+disabling this is not recommended. */
 vizSetup.enabled = false
 
 graphviz {
