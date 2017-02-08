@@ -98,10 +98,24 @@ If you do not want this behavior for some reason, you can disable it in you buil
 graphvizHooks.asciidoctor = false
 ```
 
+## Troubleshooting
+
+### npm
+
+In the background, the vizSetup task uses [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/)
+to fetch [viz.js](https://github.com/mdaines/viz.js) as a portable Graphviz replacement.
+
+If you are getting error related to npm, you can run gradle with the `--debug` option to get the full npm output,
+hopefully containing meaningful error messages.
+
+If you are behind a proxy, npm will most likely fail to download any packages.
+Check out the documentation on npm's [config files](https://docs.npmjs.com/files/npmrc)
+and [proxy settings](https://docs.npmjs.com/misc/config) (sections proxy & https-proxy) for hints on how to fix this.
+
 ## Credits
 
 A huge thanks to [Mike Daines](https://github.com/mdaines) for making GraphViz to some extent portable with [viz.js](https://github.com/mdaines/viz.js)  
-and [Sten Roger Sandvik](https://github.com/srs) for creating [gradle-node-plugin](https://github.com/srs/gradle-node-plugin) which is used for setting up viz.js!
+and [Sten Roger Sandvik](https://github.com/srs) for creating [gradle-node-plugin](https://github.com/srs/gradle-node-plugin), which is used for setting up viz.js!
 
 ## License
 
