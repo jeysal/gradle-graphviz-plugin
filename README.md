@@ -82,7 +82,9 @@ graphviz {
         include '**/*.gv', '**/*.dot'
     }
 }
- ```
+```
+
+Keep in mind the [limitations](https://github.com/jeysal/viz.js-cli-wrapper#command-line-interface) from not using a real graphviz regarding layout and format support.
 
 ## asciidoctor-diagram integration
 
