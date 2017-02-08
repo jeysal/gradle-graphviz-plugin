@@ -31,7 +31,8 @@ class VizSetupTask extends NpmTask {
         group = 'Node'
         description = 'Installs the viz binaries via npm'
 
-        final npmSilenceParams = project.logging.level == LogLevel.DEBUG ? [] : ['--silent']
+        final npmSilenceParams = (logging.level ?: project.logging.level ?: project.gradle.startParameter.logLevel) ==
+                LogLevel.DEBUG ? [] : ['--silent']
 
         setNpmCommand('install',
                 *npmSilenceParams,
