@@ -18,7 +18,8 @@ class VizSetupTask extends NpmTask {
     public static final String VIZ_MODULE_NAME = 'viz.js-cli-wrapper'
     public static final String VIZ_MODULE_VERSION = '^1.3.0'
 
-    boolean isWindows
+    @Input
+    private boolean windows
 
     @Input
     File node
@@ -39,9 +40,9 @@ class VizSetupTask extends NpmTask {
                 "$VIZ_MODULE_NAME@$VIZ_MODULE_VERSION")
         dependsOn NpmSetupTask.NAME
 
-        isWindows = OperatingSystem.current().windows
+        windows = OperatingSystem.current().windows
         wrapper = new File(project.gradle.startParameter.projectCacheDir ?: new File(project.projectDir, '.gradle'),
-                'graphvizdot' + (isWindows ? '.cmd' : ''))
+                'graphvizdot' + (windows ? '.cmd' : ''))
 
         // nodeModulesDir might still change
         project.afterEvaluate {
@@ -50,10 +51,14 @@ class VizSetupTask extends NpmTask {
                     new File(nodeModules, '.bin'))
 
             node = new File(project.extensions.node.variant.nodeBinDir as File,
-                    'node' + (isWindows ? '.exe' : ''))
+                    'node' + (windows ? '.exe' : ''))
             dot = new File(project.extensions.node.nodeModulesDir as File,
                     "node_modules/$VIZ_MODULE_NAME/src/main/js/cli/dot.js")
         }
+    }
+
+    boolean isWindows() {
+        return windows
     }
 
     /**
@@ -62,7 +67,7 @@ class VizSetupTask extends NpmTask {
      */
     @TaskAction
     void createWrapper() {
-        wrapper.text = isWindows ? /@"$node.path" "$dot.path" %*/ : $/#!/usr/bin/env sh
+        wrapper.text = windows ? /@"$node.path" "$dot.path" %*/ : $/#!/usr/bin/env sh
 "$node.path" "$dot.path" "$@"/$
         wrapper.setExecutable(true, false)
     }

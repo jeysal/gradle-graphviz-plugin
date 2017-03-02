@@ -51,9 +51,10 @@ class GraphvizTask extends DefaultTask {
     @OutputDirectory
     Object outputDir = new File(project.buildDir, 'graphviz')
 
+    @Internal
     private PatternSet sourcePatterns
 
-    public GraphvizTask() {
+    GraphvizTask() {
         group = 'build'
         description = 'Generates Graphviz output from sources'
 

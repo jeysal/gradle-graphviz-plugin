@@ -14,12 +14,12 @@ class GraphvizTaskTest extends Specification {
     private Project project
     private GraphvizTask graphviz
 
-    private boolean isWindows
+    private boolean windows
 
     def setup() {
         project = ProjectBuilder.builder().build()
         graphviz = project.tasks.create(GraphvizTask.NAME, GraphvizTask)
-        isWindows = OperatingSystem.current().windows
+        windows = OperatingSystem.current().windows
     }
 
     def 'sources(Closure) configures the pattern set'() {
@@ -57,12 +57,12 @@ class GraphvizTaskTest extends Specification {
         node.addVizSetupTask()
 
         then:
-        graphviz.executablePath == new File(project.projectDir, '.gradle/graphvizdot' + (isWindows ? '.cmd' : '')).path
+        graphviz.executablePath == new File(project.projectDir, '.gradle/graphvizdot' + (windows ? '.cmd' : '')).path
     }
 
     def 'getExecutablePath() returns the default if VizSetupTask is not present'() {
         expect:
-        graphviz.executablePath == 'dot' + (isWindows ? '.exe' : '')
+        graphviz.executablePath == 'dot' + (windows ? '.exe' : '')
     }
 
     def 'getExecutablePath() returns the default if VizSetupTask is disabled'() {
@@ -75,6 +75,6 @@ class GraphvizTaskTest extends Specification {
         vizSetup.enabled = false
 
         then:
-        graphviz.executablePath == 'dot' + (isWindows ? '.exe' : '')
+        graphviz.executablePath == 'dot' + (windows ? '.exe' : '')
     }
 }
