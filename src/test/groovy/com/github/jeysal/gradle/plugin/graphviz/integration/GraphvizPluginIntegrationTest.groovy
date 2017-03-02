@@ -94,7 +94,7 @@ class GraphvizPluginIntegrationTest extends Specification {
 
     def 'graphviz task ignores empty source directory'() {
         expect:
-        runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.UP_TO_DATE
+        runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.NO_SOURCE
         !graphvizBuildDir.exists()
     }
 
