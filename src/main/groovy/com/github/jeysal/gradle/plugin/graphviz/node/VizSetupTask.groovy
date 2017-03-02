@@ -1,7 +1,9 @@
 package com.github.jeysal.gradle.plugin.graphviz.node
 
+import com.moowork.gradle.node.NodeExtension
 import com.moowork.gradle.node.npm.NpmSetupTask
 import com.moowork.gradle.node.npm.NpmTask
+import groovy.transform.CompileStatic
 import org.gradle.api.logging.LogLevel
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputFile
@@ -12,6 +14,7 @@ import org.gradle.internal.os.OperatingSystem
  * @author Tim Seckinger
  * @since 9/2/16
  */
+@CompileStatic
 class VizSetupTask extends NpmTask {
     public static final String NAME = 'vizSetup'
 
@@ -50,9 +53,9 @@ class VizSetupTask extends NpmTask {
             outputs.files(new File(nodeModules, VIZ_MODULE_NAME),
                     new File(nodeModules, '.bin'))
 
-            node = new File(project.extensions.node.variant.nodeBinDir as File,
+            node = new File(project.extensions.findByType(NodeExtension).variant.nodeBinDir as File,
                     'node' + (windows ? '.exe' : ''))
-            dot = new File(project.extensions.node.nodeModulesDir as File,
+            dot = new File(project.extensions.findByType(NodeExtension).nodeModulesDir as File,
                     "node_modules/$VIZ_MODULE_NAME/src/main/js/cli/dot.js")
         }
     }

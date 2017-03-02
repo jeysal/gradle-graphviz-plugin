@@ -2,6 +2,7 @@ package com.github.jeysal.gradle.plugin.graphviz
 
 import com.github.jeysal.gradle.plugin.graphviz.exec.GraphvizSourceFileVisitor
 import com.github.jeysal.gradle.plugin.graphviz.node.VizSetupTask
+import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileTree
 import org.gradle.api.tasks.*
@@ -12,6 +13,7 @@ import org.gradle.internal.os.OperatingSystem
  * @author Tim Seckinger
  * @since 9/7/16
  */
+@CompileStatic
 class GraphvizTask extends DefaultTask {
     public static final String NAME = 'graphviz'
 

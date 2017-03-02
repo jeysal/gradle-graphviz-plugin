@@ -1,6 +1,7 @@
 package com.github.jeysal.gradle.plugin.graphviz.node
 
 import com.moowork.gradle.node.NodeExtension
+import groovy.transform.CompileStatic
 import org.gradle.api.Project
 
 /**
@@ -10,6 +11,7 @@ import org.gradle.api.Project
  * @author Tim Seckinger
  * @since 9/2/16
  */
+@CompileStatic
 class NodeManager {
     public static final String NODE_PLUGIN_ID = 'com.moowork.node'
 
@@ -27,7 +29,7 @@ class NodeManager {
     void prepareNode() {
         if (!project.pluginManager.hasPlugin(NODE_PLUGIN_ID)) {
             project.pluginManager.apply(NODE_PLUGIN_ID)
-            final NodeExtension node = project.extensions.node
+            final NodeExtension node = project.extensions.findByType(NodeExtension)
 
             node.download = true
             node.nodeModulesDir = project.gradle.startParameter.projectCacheDir ?:

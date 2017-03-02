@@ -1,6 +1,7 @@
 package com.github.jeysal.gradle.plugin.graphviz.exec
 
 import com.github.jeysal.gradle.plugin.graphviz.GraphvizTask
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.gradle.api.file.FileVisitDetails
 import org.gradle.api.file.FileVisitor
@@ -11,6 +12,7 @@ import org.gradle.api.tasks.TaskExecutionException
  * @since 9/14/16
  */
 @Slf4j
+@CompileStatic
 class GraphvizSourceFileVisitor implements FileVisitor {
     private final GraphvizTask graphviz
 
