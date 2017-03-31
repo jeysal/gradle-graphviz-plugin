@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.0
+### Features
+* hook into all available `AsciidoctorTask`s
+* don't silence `npm install` if run with `--debug`
+
 ## 1.3.0
 ### Features
 * always use the latest compatible viz.js
