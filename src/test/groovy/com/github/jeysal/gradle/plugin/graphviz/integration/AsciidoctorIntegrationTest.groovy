@@ -23,19 +23,17 @@ class AsciidoctorIntegrationTest extends Specification {
         buildFile = projectDir.newFile('build.gradle')
         buildFile << getClass().getResourceAsStream('/asciidoctor/build.groovy')
 
-        asciidoctorBuildDir = new File(projectDir.root, 'build/asciidoc/html5')
-
-        runner = GradleRunner.create().withProjectDir(projectDir.root).withPluginClasspath()
-                .withArguments('asciidoctor')
-    }
-
-    def 'asciidoctor generates diagrams using the provided Graphviz executable'() {
-        setup:
         new File(projectDir.newFolder('src', 'docs', 'asciidoc'), 'source.adoc') <<
                 getClass().getResourceAsStream('/asciidoctor/source.adoc')
 
+        asciidoctorBuildDir = new File(projectDir.root, 'build/asciidoc/html5')
+
+        runner = GradleRunner.create().withProjectDir(projectDir.root).withPluginClasspath()
+    }
+
+    def 'asciidoctor generates diagrams using the provided Graphviz executable'() {
         when:
-        final result = runner.build()
+        final result = runner.withArguments('asciidoctor').build()
 
         then:
         result.task(':asciidoctor').outcome == TaskOutcome.SUCCESS
@@ -49,12 +47,10 @@ class AsciidoctorIntegrationTest extends Specification {
 
     def 'vizSetup is not run if asciidoctor hook is disabled'() {
         setup:
-        new File(projectDir.newFolder('src', 'docs', 'asciidoc'), 'source.adoc') <<
-                getClass().getResourceAsStream('/asciidoctor/source.adoc')
         buildFile << 'graphvizHooks.asciidoctor = false\n'
 
         when:
-        final result = runner.build()
+        final result = runner.withArguments('asciidoctor').build()
 
         then:
         result.task(':asciidoctor').outcome == TaskOutcome.SUCCESS
@@ -63,5 +59,19 @@ class AsciidoctorIntegrationTest extends Specification {
         new File(asciidoctorBuildDir, 'test.svg').text.startsWith(
                 '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
                         '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"')
+    }
+
+    def 'a custom AsciidoctorTask generates diagrams using the provided Graphviz executable'() {
+        when:
+        final result = runner.withArguments('moreAsciidoctor').build()
+
+        then:
+        result.task(':moreAsciidoctor').outcome == TaskOutcome.SUCCESS
+        result.task(':vizSetup').outcome == TaskOutcome.SUCCESS
+        asciidoctorBuildDir.list() as Set == ['source.html', 'test.svg', '.asciidoctor'] as Set
+        new File(asciidoctorBuildDir, 'test.svg').text.startsWith(
+                '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"')
+        !new File(asciidoctorBuildDir, 'test.svg').text.contains('Cannot find Graphviz')
     }
 }

@@ -1,6 +1,8 @@
 package com.github.jeysal.gradle.plugin.graphviz.asciidoctor
 
+import com.github.jeysal.gradle.plugin.graphviz.GraphvizTask
 import com.github.jeysal.gradle.plugin.graphviz.node.VizSetupTask
+import org.asciidoctor.gradle.AsciidoctorTask
 import org.gradle.api.Project
 
 /**
@@ -8,8 +10,6 @@ import org.gradle.api.Project
  * @since 9/24/16
  */
 class AsciidoctorManager {
-    public static final ASCIIDOCTOR_PLUGIN_ID = 'org.asciidoctor.convert'
-
     private final Project project
 
     AsciidoctorManager(final Project project) {
@@ -17,14 +17,14 @@ class AsciidoctorManager {
     }
 
     /**
-     * If present, tells asciidoctor where to find Graphviz.
+     * Tell all asciidoctor tasks where to find graphviz (unless disabled)
      */
     void registerGraphviz() {
-        if (project.extensions.graphvizHooks.asciidoctor && project.pluginManager.hasPlugin(ASCIIDOCTOR_PLUGIN_ID)) {
-            def asciidoctor = project.tasks.findByName 'asciidoctor'
+        if (project.extensions.graphvizHooks.asciidoctor) {
+            final asciidoctorTasks = project.tasks.withType AsciidoctorTask
 
-            asciidoctor?.dependsOn VizSetupTask.NAME
-            asciidoctor?.attributes graphvizdot: project.tasks.findByName('graphviz').executablePath
+            asciidoctorTasks*.dependsOn VizSetupTask.NAME
+            asciidoctorTasks*.attributes graphvizdot: project.tasks.findByName(GraphvizTask.NAME).executablePath
         }
     }
 }

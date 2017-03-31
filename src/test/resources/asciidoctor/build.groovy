@@ -19,7 +19,11 @@ dependencies {
     gems 'rubygems:asciidoctor-diagram:1.5.4'
 }
 
-asciidoctor {
+import org.asciidoctor.gradle.AsciidoctorTask
+
+task moreAsciidoctor(type: AsciidoctorTask)
+
+[asciidoctor, moreAsciidoctor]*.configure {
     dependsOn jrubyPrepare
     requires = ['asciidoctor-diagram']
     gemPath = jrubyPrepare.outputDir
