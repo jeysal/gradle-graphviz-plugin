@@ -4,7 +4,7 @@ buildscript {
     }
     dependencies {
         classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
-        classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.3.3'
+        classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.5.0'
     }
 }
 
