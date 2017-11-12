@@ -48,7 +48,7 @@ class VizSetupTask extends NpmTask {
         // nodeModulesDir might still change
         project.afterEvaluate {
             final File nodeModules = new File(project.extensions.node.nodeModulesDir as File, 'node_modules')
-            outputs.files(new File(nodeModules, VIZ_MODULE_NAME),
+            outputs.dirs(new File(nodeModules, VIZ_MODULE_NAME),
                     new File(nodeModules, '.bin'))
 
             node = new File(project.extensions.findByType(NodeExtension).variant.nodeBinDir as File,
