@@ -16,7 +16,7 @@ apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'com.github.jruby-gradle.base'
 
 dependencies {
-    gems 'rubygems:asciidoctor-diagram:1.5.4'
+    gems 'rubygems:asciidoctor-diagram:1.5.4.1'
 }
 
 import org.asciidoctor.gradle.AsciidoctorTask
