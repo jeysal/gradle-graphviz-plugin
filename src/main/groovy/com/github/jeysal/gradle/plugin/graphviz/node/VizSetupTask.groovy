@@ -5,8 +5,10 @@ import com.moowork.gradle.node.npm.NpmSetupTask
 import com.moowork.gradle.node.npm.NpmTask
 import org.gradle.api.logging.LogLevel
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.Internal
 import org.gradle.internal.os.OperatingSystem
 
 /**
@@ -22,9 +24,9 @@ class VizSetupTask extends NpmTask {
     @Input
     private boolean windows
 
-    @Input
+    @InputFile
     File node
-    @Input
+    @OutputFile
     File dot
     @OutputFile
     File wrapper

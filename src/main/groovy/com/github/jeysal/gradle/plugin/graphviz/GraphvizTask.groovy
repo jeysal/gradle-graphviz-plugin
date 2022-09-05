@@ -44,7 +44,7 @@ class GraphvizTask extends DefaultTask {
     /**
      * Directory to scan for source files. Defaults to src/main/graphviz.
      */
-    @Input
+    @InputDirectory
     Object sourceDir = new File(new File(new File(project.projectDir, 'src'), 'main'), 'graphviz')
 
     /**
