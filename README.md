@@ -19,7 +19,7 @@ Add the following buildscript repositories and dependency to your Gradle build c
 You can specify any release number, the latest one available is**
 [![Latest release](https://jitpack.io/v/com.github.jeysal/gradle-graphviz-plugin.svg?style=flat-square)](https://jitpack.io/#com.github.jeysal/gradle-graphviz-plugin)
 
-Only Gradle 3 is supported, the plugin may or may not work for Gradle 2.
+Only Gradle 3+ is supported, the plugin may or may not work for Gradle 2.
 
 ### Gradle
 

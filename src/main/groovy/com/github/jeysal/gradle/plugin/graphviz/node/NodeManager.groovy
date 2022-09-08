@@ -13,7 +13,7 @@ import org.gradle.api.Project
  */
 @CompileStatic
 class NodeManager {
-    public static final String NODE_PLUGIN_ID = 'com.moowork.node'
+    public static final String NODE_PLUGIN_ID = 'com.github.node-gradle.node'
 
     private final Project project
 

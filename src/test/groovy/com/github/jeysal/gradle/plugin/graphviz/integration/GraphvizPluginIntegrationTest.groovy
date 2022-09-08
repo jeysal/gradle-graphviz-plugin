@@ -2,36 +2,37 @@ package com.github.jeysal.gradle.plugin.graphviz.integration
 
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
+import spock.lang.TempDir
 
 /**
  * @author Tim Seckinger
  * @since 9/18/16
  */
 class GraphvizPluginIntegrationTest extends Specification {
-    @Rule
-    TemporaryFolder projectDir
+    @TempDir
+    File projectDir
 
     private File buildFile
+    private File graphvizSrcDir
     private File graphvizBuildDir
 
     private GradleRunner runner
 
     def setup() {
-        buildFile = projectDir.newFile('build.gradle')
+        buildFile = new File(projectDir, 'build.gradle')
         buildFile.text = 'plugins { id "com.github.jeysal.graphviz" }\n'
 
-        graphvizBuildDir = new File(projectDir.root, 'build/graphviz')
+        graphvizSrcDir = new File(projectDir, 'src/main/graphviz');
+        graphvizSrcDir.mkdirs()
+        graphvizBuildDir = new File(projectDir, 'build/graphviz')
 
-        runner = GradleRunner.create().withProjectDir(projectDir.root).withPluginClasspath()
+        runner = GradleRunner.create().withProjectDir(projectDir).withPluginClasspath()
     }
 
     def 'graphviz task generates output from sources with specified layout and format'() {
         setup:
-        new File(projectDir.newFolder('src', 'main', 'graphviz'), 'source.gv') <<
-                getClass().getResourceAsStream('/source.gv')
+        new File(graphvizSrcDir, 'source.gv') << getClass().getResourceAsStream('/source.gv')
         buildFile << """graphviz {
                             layout = '$layout'
                             formats = ['$format']
@@ -54,10 +55,8 @@ class GraphvizPluginIntegrationTest extends Specification {
 
     def 'graphviz task generates multiple output files from multiple source files'() {
         setup:
-        new File(projectDir.newFolder('src', 'main', 'graphviz'), 'source.gv') <<
-                getClass().getResourceAsStream('/source.gv')
-        new File(projectDir.root, 'src/main/graphviz/other.gv') <<
-                getClass().getResourceAsStream('/source.gv')
+        new File(graphvizSrcDir, 'source.gv') << getClass().getResourceAsStream('/source.gv')
+        new File(graphvizSrcDir, 'other.gv') << getClass().getResourceAsStream('/source.gv')
 
         expect:
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
@@ -68,8 +67,7 @@ class GraphvizPluginIntegrationTest extends Specification {
 
     def 'graphviz task generates multiple output files when specifying multiple formats'() {
         setup:
-        new File(projectDir.newFolder('src', 'main', 'graphviz'), 'source.gv') <<
-                getClass().getResourceAsStream('/source.gv')
+        new File(graphvizSrcDir, 'source.gv') << getClass().getResourceAsStream('/source.gv')
         buildFile << 'graphviz { formats = ["xdot", "svg"] }\n'
 
         expect:
@@ -81,8 +79,9 @@ class GraphvizPluginIntegrationTest extends Specification {
 
     def 'graphviz task retains source directory structure'() {
         setup:
-        new File(projectDir.newFolder('src', 'main', 'graphviz', 'abc', 'xyz'), 'source.gv') <<
-                getClass().getResourceAsStream('/source.gv')
+        def subdir = new File(graphvizSrcDir, 'abc/xyz')
+        subdir.mkdirs()
+        new File(subdir, 'source.gv') << getClass().getResourceAsStream('/source.gv')
 
         expect:
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
@@ -100,8 +99,7 @@ class GraphvizPluginIntegrationTest extends Specification {
 
     def 'graphviz task uses exact source file names if formatSuffix is false'() {
         setup:
-        new File(projectDir.newFolder('src', 'main', 'graphviz'), 'source.gv') <<
-                getClass().getResourceAsStream('/source.gv')
+        new File(graphvizSrcDir, 'source.gv') << getClass().getResourceAsStream('/source.gv')
         buildFile << 'graphviz { formatSuffix = false }\n'
 
         expect:
@@ -112,8 +110,7 @@ class GraphvizPluginIntegrationTest extends Specification {
 
     def 'the last format remains when disabling formatSuffix despite multiple formats'() {
         setup:
-        new File(projectDir.newFolder('src', 'main', 'graphviz'), 'source.gv') <<
-                getClass().getResourceAsStream('/source.gv')
+        new File(graphvizSrcDir, 'source.gv') << getClass().getResourceAsStream('/source.gv')
         buildFile << '''graphviz {
                             formats = ["xdot", "svg"]
                             formatSuffix = false
@@ -127,8 +124,9 @@ class GraphvizPluginIntegrationTest extends Specification {
 
     def 'graphviz task reads from specified sourceDir'() {
         setup:
-        new File(projectDir.newFolder('altSrc'), 'source.gv') <<
-                getClass().getResourceAsStream('/source.gv')
+        def altSrcDir = new File(projectDir, 'altSrc')
+        altSrcDir.mkdir()
+        new File(altSrcDir, 'source.gv') << getClass().getResourceAsStream('/source.gv')
         buildFile << 'graphviz { sourceDir = file("altSrc") }\n'
 
         expect:
@@ -139,10 +137,9 @@ class GraphvizPluginIntegrationTest extends Specification {
 
     def 'graphviz task writes to specified outputDir'() {
         setup:
-        new File(projectDir.newFolder('src', 'main', 'graphviz'), 'source.gv') <<
-                getClass().getResourceAsStream('/source.gv')
+        new File(graphvizSrcDir, 'source.gv') << getClass().getResourceAsStream('/source.gv')
         buildFile << 'graphviz { outputDir = file("graphvizOut") }\n'
-        graphvizBuildDir = new File(projectDir.root, 'graphvizOut')
+        graphvizBuildDir = new File(projectDir, 'graphvizOut')
 
         expect:
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
@@ -153,10 +150,8 @@ class GraphvizPluginIntegrationTest extends Specification {
 
     def 'graphviz task processes only source files matching specified patterns'() {
         setup:
-        new File(projectDir.newFolder('src', 'main', 'graphviz'), 'source.gv') <<
-                getClass().getResourceAsStream('/source.gv')
-        new File(projectDir.root, 'src/main/graphviz/other.gv') <<
-                getClass().getResourceAsStream('/source.gv')
+        new File(graphvizSrcDir, 'source.gv') << getClass().getResourceAsStream('/source.gv')
+        new File(graphvizSrcDir, 'other.gv') << getClass().getResourceAsStream('/source.gv')
         buildFile << 'graphviz { sources { include "source.*" } }\n'
 
         expect:
@@ -167,12 +162,11 @@ class GraphvizPluginIntegrationTest extends Specification {
 
     def 'graphviz task is UP-TO-DATE on unchanged second execution'() {
         setup:
-        new File(projectDir.newFolder('src', 'main', 'graphviz'), 'source.gv') <<
-                getClass().getResourceAsStream('/source.gv')
+        new File(graphvizSrcDir, 'source.gv') << getClass().getResourceAsStream('/source.gv')
 
         expect:
         runner.withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.SUCCESS
-        GradleRunner.create().withProjectDir(projectDir.root).withPluginClasspath()
+        GradleRunner.create().withProjectDir(projectDir).withPluginClasspath()
                 .withArguments('graphviz').build().task(':graphviz').outcome == TaskOutcome.UP_TO_DATE
         graphvizBuildDir.list() as Set == ['source.gv'] as Set
         new File(graphvizBuildDir, 'source.gv').text == getClass().getResourceAsStream("/dot.xdot").text

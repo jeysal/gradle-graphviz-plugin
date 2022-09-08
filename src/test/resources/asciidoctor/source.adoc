@@ -1,4 +1,6 @@
 [plantuml,test,svg]
 --
-a->b
+@startuml
+testdot
+@enduml
 --

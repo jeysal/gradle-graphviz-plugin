@@ -2,17 +2,16 @@ package com.github.jeysal.gradle.plugin.graphviz.integration
 
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
+import spock.lang.TempDir
 
 /**
  * @author Tim Seckinger
  * @since 9/24/16
  */
 class AsciidoctorIntegrationTest extends Specification {
-    @Rule
-    TemporaryFolder projectDir
+    @TempDir
+    File projectDir
 
     private File buildFile
     private File asciidoctorBuildDir
@@ -20,15 +19,16 @@ class AsciidoctorIntegrationTest extends Specification {
     private GradleRunner runner
 
     def setup() {
-        buildFile = projectDir.newFile('build.gradle')
+        buildFile = new File(projectDir, 'build.gradle')
         buildFile << getClass().getResourceAsStream('/asciidoctor/build.groovy')
 
-        new File(projectDir.newFolder('src', 'docs', 'asciidoc'), 'source.adoc') <<
-                getClass().getResourceAsStream('/asciidoctor/source.adoc')
+        def asciidocSrcDir = new File(projectDir, 'src/docs/asciidoc')
+        asciidocSrcDir.mkdirs()
+        new File(asciidocSrcDir, 'source.adoc') << getClass().getResourceAsStream('/asciidoctor/source.adoc')
 
-        asciidoctorBuildDir = new File(projectDir.root, 'build/asciidoc/html5')
+        asciidoctorBuildDir = new File(projectDir, 'build/docs/asciidoc')
 
-        runner = GradleRunner.create().withProjectDir(projectDir.root).withPluginClasspath()
+        runner = GradleRunner.create().withProjectDir(projectDir).withPluginClasspath()
     }
 
     def 'asciidoctor generates diagrams using the provided Graphviz executable'() {
@@ -39,9 +39,7 @@ class AsciidoctorIntegrationTest extends Specification {
         result.task(':asciidoctor').outcome == TaskOutcome.SUCCESS
         result.task(':vizSetup').outcome == TaskOutcome.SUCCESS
         asciidoctorBuildDir.list() as Set == ['source.html', 'test.svg', '.asciidoctor'] as Set
-        new File(asciidoctorBuildDir, 'test.svg').text.startsWith(
-                '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
-                        '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"')
+        new File(asciidoctorBuildDir, 'test.svg').text.startsWith("<?xml version='1.0' encoding='UTF-8' standalone='no'?>")
         !new File(asciidoctorBuildDir, 'test.svg').text.contains('Cannot find Graphviz')
     }
 
@@ -56,9 +54,7 @@ class AsciidoctorIntegrationTest extends Specification {
         result.task(':asciidoctor').outcome == TaskOutcome.SUCCESS
         result.task(':vizSetup') == null
         asciidoctorBuildDir.list() as Set == ['source.html', 'test.svg', '.asciidoctor'] as Set
-        new File(asciidoctorBuildDir, 'test.svg').text.startsWith(
-                '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
-                        '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"')
+        new File(asciidoctorBuildDir, 'test.svg').text.startsWith("<?xml version='1.0' encoding='UTF-8' standalone='no'?>")
     }
 
     def 'a custom AsciidoctorTask generates diagrams using the provided Graphviz executable'() {
@@ -69,9 +65,7 @@ class AsciidoctorIntegrationTest extends Specification {
         result.task(':moreAsciidoctor').outcome == TaskOutcome.SUCCESS
         result.task(':vizSetup').outcome == TaskOutcome.SUCCESS
         asciidoctorBuildDir.list() as Set == ['source.html', 'test.svg', '.asciidoctor'] as Set
-        new File(asciidoctorBuildDir, 'test.svg').text.startsWith(
-                '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
-                        '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"')
+        new File(asciidoctorBuildDir, 'test.svg').text.startsWith("<?xml version='1.0' encoding='UTF-8' standalone='no'?>")
         !new File(asciidoctorBuildDir, 'test.svg').text.contains('Cannot find Graphviz')
     }
 }

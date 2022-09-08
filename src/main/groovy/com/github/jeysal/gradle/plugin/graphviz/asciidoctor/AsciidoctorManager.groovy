@@ -2,7 +2,7 @@ package com.github.jeysal.gradle.plugin.graphviz.asciidoctor
 
 import com.github.jeysal.gradle.plugin.graphviz.GraphvizTask
 import com.github.jeysal.gradle.plugin.graphviz.node.VizSetupTask
-import org.asciidoctor.gradle.AsciidoctorTask
+import org.asciidoctor.gradle.jvm.AsciidoctorTask
 import org.gradle.api.Project
 
 /**

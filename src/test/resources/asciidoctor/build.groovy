@@ -1,30 +1,29 @@
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
-        classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.5.0'
+        classpath 'org.asciidoctor:asciidoctor-gradle-jvm:3.3.2'
     }
 }
 
 plugins {
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
     id 'com.github.jeysal.graphviz'
 }
-
-apply plugin: 'org.asciidoctor.convert'
-apply plugin: 'com.github.jruby-gradle.base'
-
-dependencies {
-    gems 'rubygems:asciidoctor-diagram:1.5.4.1'
+repositories {
+    mavenCentral()
 }
 
-import org.asciidoctor.gradle.AsciidoctorTask
+asciidoctorj {
+    modules {
+       diagram.use()
+    }
+}
 
-task moreAsciidoctor(type: AsciidoctorTask)
+import org.asciidoctor.gradle.jvm.AsciidoctorTask
 
-[asciidoctor, moreAsciidoctor]*.configure {
-    dependsOn jrubyPrepare
-    requires = ['asciidoctor-diagram']
-    gemPath = jrubyPrepare.outputDir
+task moreAsciidoctor(type: AsciidoctorTask) {
+    sourceDir file('src/docs/asciidoc')
+    outputDir file('build/docs/asciidoc')
 }

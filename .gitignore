@@ -1,4 +1,6 @@
 .gradle/
 build/
+bin/
 
 .idea/
+.vim/
